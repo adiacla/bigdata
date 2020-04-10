@@ -1,4 +1,4 @@
-Fecha,Hora,Temperature,humidity
+Fecha,Temperature,humidity
 6/04/2020 8:00:00,25,83
 7/04/2020 8:00:05,25,83
 8/04/2020 8:00:10,25,83
