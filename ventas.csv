@@ -1,0 +1,94 @@
+Producto
+put 'ventas', '2104', 'inventario:producto','Blusa'
+put 'ventas', '2105', 'inventario:producto','Zapatos'
+put 'ventas', '2106', 'inventario:producto','Sombrero'
+put 'ventas', '2107', 'inventario:producto','Gancho'
+put 'ventas', '2108', 'inventario:producto','Bufanda'
+put 'ventas', '2109', 'inventario:producto','Almohada'
+
+put 'ventas', '2110', 'inventario:producto','Sabana'
+put 'ventas', '2111', 'inventario:producto','Guantes'
+put 'ventas', '2112', 'inventario:producto','Chancletas'
+put 'ventas', '2113', 'inventario:producto','Zapatillas'
+put 'ventas', '2114', 'inventario:producto','Camisilla'
+put 'ventas', '2115', 'inventario:producto','Sobremesa'
+
+put 'ventas', '2116', 'inventario:producto','Toalla pequeña'
+put 'ventas', '2117', 'inventario:producto','Toalla'
+put 'ventas', '2118', 'inventario:producto','Buzo'
+put 'ventas', '2119', 'inventario:producto','Cojin'
+put 'ventas', '2120', 'inventario:producto','Servilleta'
+
+put 'ventas', '2121', 'inventario:producto','Pantaloneta'
+put 'ventas', '2122', 'inventario:producto','Licra'
+put 'ventas', '2123', 'inventario:producto','Chaqueta'
+put 'ventas', '2124', 'inventario:producto','Panuelos'
+put 'ventas', '2125', 'inventario:producto','Kit limpion'
+put 'ventas', '2126', 'inventario:producto','Camiseta'
+
+grupo
+
+put 'ventas', '2101', 'inventario:grupo','Vestido'
+put 'ventas', '2102', 'inventario:grupo','Vestido'
+put 'ventas', '2103', 'inventario:grupo','Vestido'
+put 'ventas', '2104', 'inventario:grupo','Vestido'
+put 'ventas', '2105', 'inventario:grupo','Vestido'
+
+put 'ventas', '2106', 'inventario:grupo','Vestido'
+put 'ventas', '2107', 'inventario:grupo','Hogar'
+put 'ventas', '2108', 'inventario:grupo','Vestido'
+put 'ventas', '2109', 'inventario:grupo','Hogar'
+put 'ventas', '2110', 'inventario:grupo','Hogar'
+
+put 'ventas', '2111', 'inventario:grupo','Vestido'
+put 'ventas', '2112', 'inventario:grupo','Vestido'
+put 'ventas', '2113', 'inventario:grupo','Vestido'
+put 'ventas', '2114', 'inventario:grupo','Vestido'
+put 'ventas', '2115', 'inventario:grupo','Hogar'
+
+put 'ventas', '2116', 'inventario:grupo','Hogar'
+put 'ventas', '2117', 'inventario:grupo','Hogar'
+put 'ventas', '2118', 'inventario:grupo','Vestido'
+put 'ventas', '2119', 'inventario:grupo','Hogar'
+put 'ventas', '2120', 'inventario:grupo','Hogar'
+put 'ventas', '2121', 'inventario:grupo','Vestido'
+
+put 'ventas', '2122', 'inventario:grupo','Vestido'
+put 'ventas', '2123', 'inventario:grupo','Vestido'
+put 'ventas', '2124', 'inventario:grupo','Vestido'
+put 'ventas', '2125', 'inventario:grupo','Hogar'
+put 'ventas', '2126', 'inventario:grupo','Vestido'
+
+Cantidad en inventario
+
+put 'ventas', '2101', 'inventario:inventario','17'
+put 'ventas', '2102', 'inventario:inventario','49'
+put 'ventas', '2103', 'inventario:inventario','56'
+put 'ventas', '2104', 'inventario:inventario','62'
+put 'ventas', '2105', 'inventario:inventario','34'
+put 'ventas', '2106', 'inventario:inventario','62'
+
+put 'ventas', '2107', 'inventario:inventario','43'
+put 'ventas', '2108', 'inventario:inventario','84'
+put 'ventas', '2109', 'inventario:inventario','53'
+put 'ventas', '2110', 'inventario:inventario','63'
+put 'ventas', '2111', 'inventario:inventario','91'
+
+put 'ventas', '2112', 'inventario:inventario','74'
+put 'ventas', '2113', 'inventario:inventario','81'
+put 'ventas', '2114', 'inventario:inventario','48'
+put 'ventas', '2115', 'inventario:inventario','90'
+put 'ventas', '2116', 'inventario:inventario','51'
+put 'ventas', '2117', 'inventario:inventario','99'
+
+put 'ventas', '2118', 'inventario:inventario','40'
+put 'ventas', '2119', 'inventario:inventario','14'
+put 'ventas', '2120', 'inventario:inventario','87'
+put 'ventas', '2121', 'inventario:inventario','83'
+put 'ventas', '2122', 'inventario:inventario','72'
+
+put 'ventas', '2123', 'inventario:inventario','15'
+put 'ventas', '2124', 'inventario:inventario','51'
+put 'ventas', '2125', 'inventario:inventario','32'
+put 'ventas', '2126', 'inventario:inventario','100'
+
