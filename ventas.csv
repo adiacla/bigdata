@@ -92,3 +92,26 @@ put 'ventas', '2124', 'inventario:inventario','51'
 put 'ventas', '2125', 'inventario:inventario','32'
 put 'ventas', '2126', 'inventario:inventario','100'
 
+sedes
+put 'ventas', '2', 'sedes:Nombre','Sucursal 1'
+put 'ventas', '3', 'inventario:Nombre','Sucursal 2'
+put 'ventas', '4', 'inventario:Nombre','Sucursal 3'
+
+put 'ventas', '2', 'sedes:Sede','Suba'
+put 'ventas', '3', 'inventario:Sede','Usaquen'
+put 'ventas', '4', 'inventario:Sede','Antonio Narino'
+
+put 'ventas', '2', 'sedes:Lat',4.722417
+put 'ventas', '3', 'inventario:Lat',4.681092
+put 'ventas', '4', 'inventario:Lat',4.627559
+
+put 'ventas', '2', 'sedes:Long',-74.077519
+put 'ventas', '3', 'inventario:Long',-74.097585
+put 'ventas', '4', 'inventario:Long',-74.155438
+
+
+
+
+
+
+
