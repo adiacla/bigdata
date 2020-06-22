@@ -109,9 +109,145 @@ put 'ventas', '2', 'sedes:Long',-74.077519
 put 'ventas', '3', 'inventario:Long',-74.097585
 put 'ventas', '4', 'inventario:Long',-74.155438
 
+create 'ventas2', {NAME => 'inventario', VERSIONS =>5}, {NAME => 'sedes', VERSIONS =>5}, {NUMREGIONS => 5, SPLITALGO => ' UniformSplit'}
 
 
 
+
+
+VENTAS 2
+
+Producto
+
+put 'ventas2', '2104', 'inventario:producto','Blusa'
+put 'ventas2', '2105', 'inventario:producto','Zapatos'
+put 'ventas2', '2106', 'inventario:producto','Sombrero'
+put 'ventas2', '2107', 'inventario:producto','Gancho'
+put 'ventas2', '2108', 'inventario:producto','Bufanda'
+put 'ventas2', '2109', 'inventario:producto','Almohada'
+
+put 'ventas2', '2110', 'inventario:producto','Sabana'
+put 'ventas2', '2111', 'inventario:producto','Guantes'
+put 'ventas2', '2112', 'inventario:producto','Chancletas'
+put 'ventas2', '2113', 'inventario:producto','Zapatillas'
+put 'ventas2', '2114', 'inventario:producto','Camisilla'
+put 'ventas2', '2115', 'inventario:producto','Sobremesa'
+
+put 'ventas2', '2116', 'inventario:producto','Toalla pequeña'
+put 'ventas2', '2117', 'inventario:producto','Toalla'
+put 'ventas2', '2118', 'inventario:producto','Buzo'
+put 'ventas2', '2119', 'inventario:producto','Cojin'
+put 'ventas2', '2120', 'inventario:producto','Servilleta'
+
+put 'ventas2', '2121', 'inventario:producto','Pantaloneta'
+put 'ventas2', '2122', 'inventario:producto','Licra'
+put 'ventas2', '2123', 'inventario:producto','Chaqueta'
+put 'ventas2', '2124', 'inventario:producto','Panuelos'
+put 'ventas2', '2125', 'inventario:producto','Kit limpion'
+put 'ventas2', '2126', 'inventario:producto','Camiseta'
+
+grupo
+
+put 'ventas2', '2101', 'inventario:grupo','Vestido'
+put 'ventas2', '2102', 'inventario:grupo','Vestido'
+put 'ventas2', '2103', 'inventario:grupo','Vestido'
+put 'ventas2', '2104', 'inventario:grupo','Vestido'
+put 'ventas2', '2105', 'inventario:grupo','Vestido'
+
+put 'ventas2', '2106', 'inventario:grupo','Vestido'
+put 'ventas2', '2107', 'inventario:grupo','Hogar'
+put 'ventas2', '2108', 'inventario:grupo','Vestido'
+put 'ventas2', '2109', 'inventario:grupo','Hogar'
+put 'ventas2', '2110', 'inventario:grupo','Hogar'
+
+put 'ventas2', '2111', 'inventario:grupo','Vestido'
+put 'ventas2', '2112', 'inventario:grupo','Vestido'
+put 'ventas2', '2113', 'inventario:grupo','Vestido'
+put 'ventas2', '2114', 'inventario:grupo','Vestido'
+put 'ventas2', '2115', 'inventario:grupo','Hogar'
+
+put 'ventas2', '2116', 'inventario:grupo','Hogar'
+put 'ventas2', '2117', 'inventario:grupo','Hogar'
+put 'ventas2', '2118', 'inventario:grupo','Vestido'
+put 'ventas2', '2119', 'inventario:grupo','Hogar'
+put 'ventas2', '2120', 'inventario:grupo','Hogar'
+put 'ventas2', '2121', 'inventario:grupo','Vestido'
+
+put 'ventas2', '2122', 'inventario:grupo','Vestido'
+put 'ventas2', '2123', 'inventario:grupo','Vestido'
+put 'ventas2', '2124', 'inventario:grupo','Vestido'
+put 'ventas2', '2125', 'inventario:grupo','Hogar'
+put 'ventas2', '2126', 'inventario:grupo','Vestido'
+
+Cantidad en inventario
+
+put 'ventas2', '2101', 'inventario:inventario','17'
+put 'ventas2', '2102', 'inventario:inventario','49'
+put 'ventas2', '2103', 'inventario:inventario','56'
+put 'ventas2', '2104', 'inventario:inventario','62'
+put 'ventas2', '2105', 'inventario:inventario','34'
+put 'ventas2', '2106', 'inventario:inventario','62'
+
+put 'ventas2', '2107', 'inventario:inventario','43'
+put 'ventas2', '2108', 'inventario:inventario','84'
+put 'ventas2', '2109', 'inventario:inventario','53'
+put 'ventas2', '2110', 'inventario:inventario','63'
+put 'ventas2', '2111', 'inventario:inventario','91'
+
+put 'ventas2', '2112', 'inventario:inventario','74'
+put 'ventas2', '2113', 'inventario:inventario','81'
+put 'ventas2', '2114', 'inventario:inventario','48'
+put 'ventas2', '2115', 'inventario:inventario','90'
+put 'ventas2', '2116', 'inventario:inventario','51'
+put 'ventas2', '2117', 'inventario:inventario','99'
+
+put 'ventas2', '2118', 'inventario:inventario','40'
+put 'ventas2', '2119', 'inventario:inventario','14'
+put 'ventas2', '2120', 'inventario:inventario','87'
+put 'ventas2', '2121', 'inventario:inventario','83'
+put 'ventas2', '2122', 'inventario:inventario','72'
+
+put 'ventas2', '2123', 'inventario:inventario','15'
+put 'ventas2', '2124', 'inventario:inventario','51'
+put 'ventas2', '2125', 'inventario:inventario','32'
+put 'ventas2', '2126', 'inventario:inventario','100'
+
+sedes
+put 'ventas', '2', 'sedes:Nombre','Sucursal 1'
+put 'ventas', '3', 'sedes:Nombre','Sucursal 2'
+put 'ventas', '4', 'sedes:Nombre','Sucursal 3'
+
+put 'ventas', '2', 'sedes:Sede','Suba'
+put 'ventas', '3', 'sedes:Sede','Usaquen'
+put 'ventas', '4', 'sedes:Sede','Antonio Narino'
+
+put 'ventas', '2', 'sedes:Lat',4.722417
+put 'ventas', '3', 'sedes:Lat',4.681092
+put 'ventas', '4', 'sedes:Lat',4.627559
+
+put 'ventas', '2', 'sedes:Long',-74.077519
+put 'ventas', '3', 'sedes:Long',-74.097585
+put 'ventas', '4', 'sedes:Long',-74.155438
+
+
+CREATE EXTERNAL TABLE ventas ( id string,
+       producto string,
+       codigo string,
+       grupo string,
+       precio int,
+       valor int,
+       venta int,
+       timestamp_col timestamp)
+     STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'
+WITH SERDEPROPERTIES ( "hbase.columns.mapping" = "id:key,producto:producto,codigo:codigo,grupo:grupo,precio:precio,valor:valo,venta:venta, timestamp_col:timestamp_col"
+TBLPROPERTIES("hbase.table.name" = "ventas");
+
+
+CREATE EXTERNAL TABLE sedes (id string, nombre string,sede string,latitud float,longitud float, timestamp_col timestamp)
+STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'
+WITH SERDEPROPERTIES ( "hbase.columns.mapping" = 
+":key,sedes:Nombre,sedes:Sede,sedes:Lat,sedes:Long,sedes:timestamp_col")
+TBLPROPERTIES("hbase.table.name" = "ventas");
 
 
 
