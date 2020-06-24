@@ -21,7 +21,7 @@ public class CreateTable {
 
    // Instantiating table descriptor class
    HTableDescriptor tableDescriptor = new
-   TableDescriptor(TableName.valueOf("emp"));
+   tableDescriptor(TableName.valueOf("emp"));
 
    // Adding column families to table descriptor
    tableDescriptor.addFamily(new HColumnDescriptor("personal"));
