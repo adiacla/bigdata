@@ -1,0 +1,3 @@
+Con Servidores Virtuales puedes elegir de forma sencilla e instantánea las opciones de procesador, disco duro, RAM y sistema operativo acordes a los objetivos y necesidades de tu negocio. Tu infraestructura de cómputo será más simple y administrable, con servidores Windows® o Linux® disponibles en minutos con recursos cloud flexibles en vCPU, RAM y disco duro.
+•Mejora la capacidad de respuesta para manejar los picos de demanda de cómputo de tu empresa con recursos escalables y flexibles como procesamiento (vCPU), memoria RAM, almacenamiento, mecanismos de seguridad y soporte 7x24. Administra la configuración de tus Servidores Virtuales, programa respaldos y solicita funcionalidades extra en cualquier momento.
+
