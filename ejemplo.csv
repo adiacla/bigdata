@@ -1,7 +1,8 @@
-'ROW','Fecha_Ped','valor','Pais','empleado_id','Cedula','Medio','Sede
-'F0001','42375','9093','Ecuador','3','U00101038','Tarjeta Debito','Pla playa
-'F0002','42482','19385','Ecuador','7','U00098179','Tarjeta Debito','Pla playa
-'F0003','42594','21094','Peru','4','U00096468','Tarjeta Debito','Inca
-'F0004','42652','46362','Venezuela','4','U00070429','Efectivo','Santanios
-'F0005','42700','2933','Ecuador','3','U00098889','Cheque','Pla playa
-'F0006','42426','22723','Panama','4','U00100745','Tarjeta Debito','Canal
+ROW.Fecha_Ped.valor.Pais.empleado_id.Cedula.Medio.Sede
+F0001.42375.9093.Ecuador.3.U00101038.Tarjeta Debito.Pla playa
+F0002.42482.19385.Ecuador.7.U00098179.Tarjeta Debito.Pla playa
+F0003.42594.21094.Peru.4.U00096468.Tarjeta Debito.Inca
+F0004.42652.46362.Venezuela.4.U00070429.Efectivo.Santanios
+F0005.42700.2933.Ecuador.3.U00098889.Cheque.Pla playa
+F0006.42426.22723.Panama.4.U00100745.Tarjeta Debito.Canal
+F0007.42729.38912.Panama.3.U00096287.Efectivo.Canal
