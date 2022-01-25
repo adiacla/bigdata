@@ -4,3 +4,4 @@
 45668UZ,Oscar,20,HR,1-01-2019
 442292OI,Erika,30,Finance,1-01-2019
 503647MN,Sebastien,30,Finance,1-01-2019
+149633CM,Marco,10,Accounts,1-01-2019
