@@ -1,0 +1,7 @@
+db = db.getSiblingDB("colegio");
+db.estudantes.drop();
+db.estudiantes.insertOne({nombre : 'Juan', apellido : 'Linarez', edad : 21, notas : [18,19,16], programa : { nombre : 'Ingeniería en Informática', nivel : 'pregrado'}, grupos: [ { nombre : 'Club de  Ajedrez', descripción : 'Grupo de jugadores de Ajedrez'}, { nombre : 'Club de Informática', descripcion : 'Grupo para fanáticos de Tecnología'}] });
+db.estudiantes.insertOne({nombre : 'Maria', apellido : 'Cadenas', edad : 18, notas : [12,14], programa : { nombre : 'Medicina', nivel : 'pregrado'}, grupos: [ { nombre : 'Club de  Volleyball', descripción : 'Equipo d eVolleyball de la universidad.'}]});
+db.estudiantes.insertOne({nombre : 'Jorge', apellido : 'Rodriguez', edad : 31, notas : [14,19,13], programa : { nombre : 'Ingeniería Civil', nivel : 'postgrado'}});
+db.estudiantes.insertOne({nombre : 'Carla', apellido : 'Sandoval', edad : 24, notas : [15,17,16,15], programa : { nombre : 'Ingeniería en Informática', nivel : 'pregrado'}, grupos: [ { nombre : 'Club de Informática', descripcion : 'Grupo para fanáticos de Tecnología'}] });
+db.estudiantes.insertOne({nombre : 'William', apellido : 'Smith', edad : 14, notas : ['A', 'B+', 'A-'], programa : { nombre : 'Bachiller'}, grupos: [ { nombre : 'Club de PS4', descripción : 'Grupo de jugadores de Playstation 4'}] });
