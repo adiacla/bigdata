@@ -16,6 +16,7 @@ RowNumber,CustomerId,Surname,CreditScore,Geography,Gender,Age,Tenure,Balance,Num
 14,15691483,,549,France,Female,25,5,0,2,0,0,190857.79,0
 15,15600882,Scott,635,Spain,Female,35,7,0,2,1,1,65951.65,0
 16,15643966,Goforth,616,Germany,Male,45,3,143129.41,2,0,1,64327.26,0
+16,15643966,Goforth,616,Germany,Male,45,3,143129.41,2,0,1,64327.26,0
 17,15737452,Romeo,653,Germany,Male,58,1,132602.88,1,1,0,5097.67,1
 18,15788218,,549,Spain,Female,24,9,0,2,1,1,14406.41,0
 19,15661507,Muldrow,587,Spain,Male,45,6,0,1,0,0,158684.81,0
