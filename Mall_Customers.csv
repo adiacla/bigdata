@@ -27,7 +27,7 @@ CustomerID,Genre,Age,Annual Income (k$),Spending Score (1-100)
 0026,Male,29,28,82
 0027,Female,45,28,32
 0028,Male,35,28,61
-0029,Female,40,29,31
+0029,Female,40,29,50000
 0030,Female,23,29,87
 0031,Male,60,30,4
 0032,Female,21,30,73
@@ -48,7 +48,7 @@ CustomerID,Genre,Age,Annual Income (k$),Spending Score (1-100)
 0047,Female,50,40,55
 0048,Female,27,40,47
 0049,Female,29,40,42
-0050,Female,31,40,42
+0050,Female,,40,42
 0051,Female,49,42,52
 0052,Male,33,42,60
 0053,Female,31,43,54
@@ -66,7 +66,7 @@ CustomerID,Genre,Age,Annual Income (k$),Spending Score (1-100)
 0065,Male,63,48,51
 0066,Male,18,48,59
 0067,Female,43,48,50
-0068,Female,68,48,48
+0068,Female,68,,48
 0069,Male,19,48,59
 0070,Female,32,48,47
 0071,Male,70,49,55
@@ -101,7 +101,7 @@ CustomerID,Genre,Age,Annual Income (k$),Spending Score (1-100)
 0100,Male,20,61,49
 0101,Female,23,62,41
 0102,Female,49,62,48
-0103,Male,67,62,59
+0103,Male,,62,59
 0104,Male,26,62,55
 0105,Male,49,62,56
 0106,Female,21,62,42
@@ -111,7 +111,7 @@ CustomerID,Genre,Age,Annual Income (k$),Spending Score (1-100)
 0110,Male,66,63,48
 0111,Male,65,63,52
 0112,Female,19,63,54
-0113,Female,38,64,42
+0113,Female,38,,42
 0114,Male,19,64,46
 0115,Female,18,65,48
 0116,Female,19,65,50
