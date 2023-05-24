@@ -27,7 +27,7 @@ CustomerID,Genre,Age,Annual Income (k$),Spending Score (1-100)
 0026,Male,29,28,82
 0027,Female,45,28,32
 0028,Male,35,28,61
-0029,Female,40,29,50000
+0029,Female,40,29,500
 0030,Female,23,29,87
 0031,Male,60,30,4
 0032,Female,21,30,73
