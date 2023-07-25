@@ -12,3 +12,7 @@ ps --no-headers -o comm 1
 sudo systemctl start mongod
 echo Verifique que el servicio está activo
 sudo systemctl status mongod
+wget https://raw.githubusercontent.com/adiacla/bigdata/master/mongod.conf
+sudo cp mongod.conf /etc
+echo finalizar la instalacion
+exti
