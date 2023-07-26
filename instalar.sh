@@ -1,7 +1,7 @@
 #!/bin/bash
 echo Script para instalar Mongodb
 echo Instalación verifica la version
-grep ^NAME  /etc/*release
+grep ^NAME  /etc/*release ->so
 echo Script para Amazon Linux
 cd /etc/yum.repos.d/
 wget https://raw.githubusercontent.com/adiacla/bigdata/master/mongodb-org-6.0.repo
@@ -15,4 +15,4 @@ sudo systemctl status mongod
 wget https://raw.githubusercontent.com/adiacla/bigdata/master/mongod.conf
 sudo cp mongod.conf /etc
 echo finalizar la instalacion
-exti
+exit
