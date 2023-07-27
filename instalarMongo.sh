@@ -18,6 +18,6 @@ sudo cp ./mongod.conf /etc
 mkdir dataset
 cd ./dataset
 wget https://raw.githubusercontent.com/adiacla/bigdata/master/papeleria.js
-mongosh --f ~/dataset/papeleria.js
+mongosh --f ./papeleria.js
 echo finalizar la instalacion
 exit
