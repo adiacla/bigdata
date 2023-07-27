@@ -14,10 +14,9 @@ sudo systemctl start mongod
 echo Verifique que el servicio está activo
 sudo systemctl status mongod
 wget https://raw.githubusercontent.com/adiacla/bigdata/master/mongod.conf
-sudo cp mongod.conf /etc
-cd ~
+sudo cp ./mongod.conf /etc
 mkdir dataset
-cd dataset
+cd ./dataset
 wget https://raw.githubusercontent.com/adiacla/bigdata/master/papeleria.js
 mongosh --f ~/dataset/papeleria.js
 echo finalizar la instalacion
