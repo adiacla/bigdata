@@ -379,7 +379,7 @@ price;lotSize;age;landValue;livingArea;pctCollege;bedrooms;fireplaces;bathrooms;
 235000;0.72;15;40300;2086;64;3;1;2.5;5;hot air;gas;public/commercial;No;No;Yes;13/08/2008;UC010189387AWS85093;8477,2;M
 235000;1;9;43900;2588;64;4;1;2.5;12;hot air;oil;septic;No;No;No;12/08/2014;UC0101863829AWS61807;3874;Mx
 130000;0.18;18;18800;1480;64;3;;1.5;4;electric;electric;public/commercial;No;No;No;14/08/2005;UC0101827565AWS35815;5070;Mx
-235000;0.74;10;35700;1752;64;3;1;2.5;7;hot air;gas;public/commercial;No;No;No;12/08/2013;UC0101269155AWS28493;5350,285714;Mx
+235000;0.74;10;35700;;64;3;1;2.5;7;hot air;gas;public/commercial;No;No;No;12/08/2013;UC0101269155AWS28493;5350,285714;Mx
 191900;0.48;32;28200;2660;64;4;1;2.5;11;hot water/steam;gas;public/commercial;No;No;No;18/08/1991;UC0101401255AWS24063;2805,454545;S
 284900;0.58;20;69500;2417;64;3;1;2.5;9;hot air;gas;public/commercial;No;No;Yes;15/08/2003;UC0101413674AWS65433;7990,777778;M
 335000;0.01;21;79100;2793;64;3;1;2.5;7;hot air;gas;public/commercial;No;No;Yes;15/08/2002;UC0101228612AWS29958;11699;Lx
@@ -444,7 +444,7 @@ price;lotSize;age;landValue;livingArea;pctCollege;bedrooms;fireplaces;bathrooms;
 209000;3.8;19;14400;1519;57;2;;1;3;hot water/steam;oil;septic;No;No;No;14/08/2004;UC0101232261AWS88545;5306,333333;Mx
 189100;0.46;15;15700;1604;57;3;1;2.5;4;hot air;oil;septic;No;No;Yes;13/08/2008;UC0101621233AWS76024;4326;Mx
 285000;0.98;25;15900;1400;57;3;1;2;5;electric;electric;septic;No;No;No;16/08/1998;UC0101535816AWS73285;3460;Mx
-266600;1;12;20300;1752;57;4;;1;7;hot air;gas;septic;No;No;No;13/08/2011;UC0101425785AWS86419;3150,285714;Mx
+266600;1;12;20300;;57;4;;1;7;hot air;gas;septic;No;No;No;13/08/2011;UC0101425785AWS86419;3150,285714;Mx
 80000;1;32;20300;880;57;2;;1.5;6;electric;electric;septic;No;No;No;18/08/1991;UC0101822344AWS45116;3530;Mx
 225000;6.07;14;25700;1240;57;3;;2;5;hot air;oil;septic;No;No;No;13/08/2009;UC0101340008AWS40881;5388;Mx
 159000;0.03;17;18800;1514;36;3;1;1.5;8;hot air;gas;septic;No;No;No;14/08/2006;UC0101767041AWS78414;2539,25;S
@@ -1250,8 +1250,8 @@ price;lotSize;age;landValue;livingArea;pctCollege;bedrooms;fireplaces;bathrooms;
 62500;1;25;24700;2808;35;3;;1;11;hot air;oil;septic;No;No;No;16/08/1998;UC0101454748AWS86592;2500,727273;S
 205000;0.19;18;7300;1576;35;3;;1.5;4;hot air;gas;public/commercial;No;No;No;14/08/2005;UC0101962155AWS18781;2219;S
 84500;0.2;135;7300;1118;35;3;;1;5;hot water/steam;gas;public/commercial;No;No;No;###############################################################################################################################################################################################################################################################;UC0101740606AWS56954;1683,6;S
-280500;1.09;8;23000;1752;35;3;2;2;6;hot air;gas;septic;No;No;Yes;12/08/2015;UC0101883990AWS98608;4125,333333;Mx
-182000;0.02;32;22500;1753;35;3;;1.5;5;electric;electric;septic;No;No;No;18/08/1991;UC0101126845AWS70102;4850,6;Mx
+280500;1.09;8;23000;;35;3;2;2;6;hot air;gas;septic;No;No;Yes;12/08/2015;UC0101883990AWS98608;4125,333333;Mx
+182000;0.02;32;22500;;35;3;;1.5;5;electric;electric;septic;No;No;No;18/08/1991;UC0101126845AWS70102;4850,6;Mx
 571000;1;14;128500;2186;62;3;;2.5;10;hot air;gas;none;No;No;Yes;13/08/2009;UC0101696617AWS76869;13068,6;Lx
 168000;0.25;35;50000;1800;62;2;;1;5;hot air;gas;public/commercial;No;No;No;18/08/1988;UC0101789685AWS43554;10360;Lx
 354000;0.46;30;56600;2462;62;5;1;2.5;10;hot air;gas;public/commercial;No;No;Yes;17/08/1993;UC0101905827AWS27268;5906,2;M
@@ -1478,7 +1478,7 @@ price;lotSize;age;landValue;livingArea;pctCollege;bedrooms;fireplaces;bathrooms;
 154500;0.54;35;5700;1820;36;4;;1.5;8;hot water/steam;gas;septic;No;No;No;18/08/1988;UC0101197551AWS68132;940;S
 300000;0.92;19;5000;2144;36;3;1;2.5;8;hot air;oil;septic;No;No;Yes;14/08/2004;UC0101268448AWS21859;893;S
 206000;0.1;17;5100;1610;36;3;;2;8;hot air;gas;septic;No;No;No;14/08/2006;UC0101364056AWS92210;838,75;S
-257000;0.75;6;1700;1752;36;3;;2.5;7;hot air;gas;septic;No;No;No;11/08/2017;UC0101167397AWS76770;493,1428571;S
+257000;0.75;6;1700;;36;3;;2.5;7;hot air;gas;septic;No;No;No;11/08/2017;UC0101167397AWS76770;493,1428571;S
 182000;0.38;36;3300;1729;36;4;1;1.5;8;hot water/steam;gas;septic;No;No;No;19/08/1987;UC010186234AWS10690;628,625;S
 161000;0.59;37;4400;1056;36;3;;1;6;hot air;gas;septic;No;No;No;19/08/1986;UC0101544077AWS40385;909,3333333;S
 176000;0.42;21;12250;1292;64;3;;1.5;6;electric;electric;public/commercial;No;No;No;15/08/2002;UC0101520213AWS65732;2257;S
