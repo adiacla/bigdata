@@ -15,7 +15,6 @@ waterfront: si la vivienda tiene vistas al lago.
 newConstruction: si la vivienda es de nueva construcción.
 centralAir: si la vivienda tiene aire acondicionado.
 built date: fecha de contruida	
-Built year:	Año de construcción
 property code: número catastral	
 mtrsmyroom: Area por salón	
 category: Tipo de construcción
