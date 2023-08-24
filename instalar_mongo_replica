@@ -1,4 +1,5 @@
 #!/bin/bash
+clear
 echo Script para instalar Mongodb Alfredo Díaz en AWS EC2 Amazon Linux 2
 echo Antes de instalar verifica la version del S.O.
 grep ^NAME  /etc/*release 
