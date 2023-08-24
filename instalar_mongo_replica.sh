@@ -39,7 +39,7 @@ cd ~/
 mkdir replica
 mkdir ./replica/nodo0
 mkdir ./replica/nodo0/key
-mkdir ./replica/nodo0/log
+mkdir ./replica/nodo0/logs
 mkdir ./replica/nodo0/mongo
 cp ./mongod.conf ./replica/nodo0/
 cp -r ./replica/nodo0 ./replica/nodo1
