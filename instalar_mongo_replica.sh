@@ -28,7 +28,7 @@ echo ******************************************
 echo **** Instalando las colecciones ejemplo **
 echo ******************************************
 wget https://raw.githubusercontent.com/adiacla/bigdata/master/mongod.conf
-sudo cp ./mongod.conf /etc
+cp ./mongod.conf /etc
 mkdir dataset
 cd dataset
 wget https://raw.githubusercontent.com/adiacla/bigdata/master/papeleria.js
