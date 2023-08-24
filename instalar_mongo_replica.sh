@@ -33,19 +33,19 @@ mkdir dataset
 cd dataset
 wget https://raw.githubusercontent.com/adiacla/bigdata/master/papeleria.js
 mongosh --f ~/dataset/papeleria.js
-https://raw.githubusercontent.com/adiacla/bigdata/master/cargarPeliculas.js
+wget https://github.com/adiacla/bigdata/edit/master/cargarPeliculas.js
 mongosh --f ~/dataset/cargarPeliculas.js
-cd ~
+cd ~/
 mkdir replica
-mkidr ./replica/nodo0
-mkdir ./replica/nodo/key
-mkdir ./replica/nodo/log
-mkdir ./replica/nodo/mongo
-sudo cp ./mongod.conf ./replica/nodo0
-cp .-r /replica/nodo0 ./replica/nodo1
-cp .-r /replica/nodo0 ./replica/nodo2
-cp .-r /replica/nodo0 ./replica/nodo3
-cp .-r /replica/nodo0 ./replica/nodo4
+mkdir ./replica/nodo0
+mkdir ./replica/nodo0/key
+mkdir ./replica/nodo0/log
+mkdir ./replica/nodo0/mongo
+sudo cp ./mongod.conf ./replica/nodo0/
+cp -r ./replica/nodo0 ./replica/nodo1
+cp -r ./replica/nodo0 ./replica/nodo2
+cp -r ./replica/nodo0 ./replica/nodo3
+cp -r ./replica/nodo0 ./replica/nodo4
 echo *********************************
 ehco ******                       ****
 echo finaliza la instalacion
