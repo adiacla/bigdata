@@ -46,5 +46,8 @@ echo *********************************
 ehco ******                       ****
 echo finaliza la instalacion
 echo *********************************
-ehco ******                       ****
+echo ******                       ****
+ps -ef|grep mongo
+netstat -tulnp
+
 exit
