@@ -4,7 +4,7 @@ echo Antes de instalar verifica la version del S.O.
 grep ^NAME  /etc/*release 
 echo Si la versión no es  abstengase de intalar con este script
 echo Script para Amazon Linux
-sudo yum update
+sudo yum -y update
 cd /etc/yum.repos.d/ 
 echo ***************************************
 echo **** Instalando tree ******************
