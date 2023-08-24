@@ -19,6 +19,8 @@ mkdir dataset
 cd dataset
 wget https://raw.githubusercontent.com/adiacla/bigdata/master/papeleria.js
 mongosh --f ~/dataset/papeleria.js
+https://raw.githubusercontent.com/adiacla/bigdata/master/cargarPeliculas.js
+mongosh --f ~/dataset/papeleria.js
 cd ~
 mkdir replica
 mkidr ./replica/nodo0
