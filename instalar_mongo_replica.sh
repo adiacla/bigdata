@@ -30,11 +30,11 @@ echo ******************************************
 wget https://raw.githubusercontent.com/adiacla/bigdata/master/mongod.conf
 sudo cp ./mongod.conf /etc
 mkdir dataset
-cd dataset
+cd ~/dataset
 wget https://raw.githubusercontent.com/adiacla/bigdata/master/papeleria.js
 mongosh --f ~/dataset/papeleria.js
-wget https://github.com/adiacla/bigdata/edit/master/cargarPeliculas.js
-mongosh --f ~/dataset/cargarPeliculas.js
+wget https://raw.githubusercontent.com/adiacla/bigdata/master/cargarcolegios.js
+mongosh --f ~/dataset/cargarcolegios.js
 cd ~/
 mkdir replica
 mkdir ./replica/nodo0
