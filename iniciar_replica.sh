@@ -1,22 +1,16 @@
 echo Correr una partición
-
 #!/bin/bash
 clear
-echo
 echo *******************************************************************
 echo Este script funciona cuando ya se tiene instalado monogodb
-echo 
 echo *******************************************************************
 read -rsn1 -p"Oprima cualquier tecla para continuar"
 echo *******************************************************************
 echo Descargando archivos de datos y de configuracion
-echo 
 echo *******************************************************************
-wget https://raw.githubusercontent.com/adiacla/bigdata/master/mongod.conf
-sudo cp ./mongod.conf /etc
-wait
-rm -r dataset
-mkdir dataset
+cd ~
+rm -r ./dataset
+mkdir ./dataset
 cd ~/dataset
 wait
 wget https://raw.githubusercontent.com/adiacla/bigdata/master/papeleria.js
