@@ -21,6 +21,7 @@ echo
 wget https://raw.githubusercontent.com/adiacla/bigdata/master/mongod.conf
 sudo cp ./mongod.conf /etc
 wait
+rm -r dataset
 mkdir dataset
 cd ~/dataset
 wait
