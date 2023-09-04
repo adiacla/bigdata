@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 echo *******************************************************************
 echo Este script funciona cuando ya se tiene instalado monogodb
 echo *******************************************************************
@@ -41,19 +41,18 @@ cp ~/dataset/config28001.conf ~/replica/nodo1/
 cp ~/dataset/config28002.conf ~/replica/nodo2/
 cp ~/dataset/config28003.conf ~/replica/nodo3/
 cp ~/dataset/config28004.conf ~/replica/nodo4/
-cd ~/replica/nodo0/
 echo *******************************************************************
 echo Lanzando o desplegando los servicios de mongod en puertos 28800 al 28004
 echo *******************************************************************
-mongosh --port 28000
+mongod -f config28000.conf
 cd ~/replica/nodo1/
-mongosh --port 28001
+mongod -f config28001.conf
 cd ~/replica/nodo2/
-mongosh --port 28002
+mongod -f config28002.conf
 cd ~/replica/nodo3/
-mongosh --port 28003
+mongod -f config28003.conf
 cd ~/replica/nodo4/
-mongosh --port 28004
+mongod -f config28004.conf
 cd ~/replica
 echo *******************************************************************
 echo Verifique que los servicios están lanzados
@@ -64,7 +63,7 @@ echo Inciando el replica set y crando el usuari
 echo Usuario adiaz
 echo password a1234
 echo *******************************************************************
-mongosh --port 28000 --eval 'rs.initiate()' --eval 'db.createUser({user: "adiaz",pwd: "a1234",roles: [{role: "root", db: "admin"}]})'
+mongosh --port 28000 --eval "use admin" --eval 'rs.initiate()' --eval 'db.createUser({user: "adiaz",pwd: "a123$clear
 echo *******************************************************************
 echo Verifique que el servidor Ec2 tiene los puertos
 echo habilitados en el ACL
