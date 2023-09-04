@@ -10,7 +10,7 @@ echo *******************************************************************
 echo Descargando archivos de datos y de configuracion
 echo *******************************************************************
 cd ~
-rm -r -v dataset
+sudo rm -r dataset
 mkdir dataset
 cd ~/dataset
 pwd
@@ -36,7 +36,7 @@ echo *******************************************************************
 echo Creando las carpetas para nodo0 al nodo4
 echo *******************************************************************
 cd ~/
-rm -r -v replica
+sudo rm -r replica
 mkdir replica
 echo **************************
 echo Crea nodo0
