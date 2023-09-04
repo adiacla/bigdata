@@ -9,8 +9,8 @@ echo *******************************************************************
 echo Descargando archivos de datos y de configuracion
 echo *******************************************************************
 cd ~
-rm -r ./dataset
-mkdir ./dataset
+rm -r dataset
+mkdir dataset
 cd ~/dataset
 pwd
 wget https://raw.githubusercontent.com/adiacla/bigdata/master/papeleria.js
