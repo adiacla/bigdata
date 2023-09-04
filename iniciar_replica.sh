@@ -4,7 +4,6 @@ echo *******************************************************************
 echo Este script funciona cuando ya se tiene instalado monogodb
 echo *******************************************************************
 read -rsn1 -p"Oprima cualquier tecla para continuar"
-read
 echo *******************************************************************
 echo Descargando archivos de datos y de configuracion
 echo *******************************************************************
