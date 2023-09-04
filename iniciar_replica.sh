@@ -10,7 +10,7 @@ echo Descargando archivos de datos y de configuracion
 echo *******************************************************************
 cd ~
 sudo rm -r dataset
-mkdir dataset
+mkdir ~/dataset/
 cd ~/dataset
 wget https://raw.githubusercontent.com/adiacla/bigdata/master/papeleria.js
 mongosh --f ~/dataset/papeleria.js
@@ -33,7 +33,7 @@ echo Creando las carpetas para nodo0 al nodo4
 echo *******************************************************************
 cd ~/
 sudo rm -r replica
-mkdir replica
+mkdir ~/replica/
 echo **************************
 echo Crea nodo0
 echo *************************
