@@ -10,8 +10,10 @@ echo Descargando archivos de datos y de configuracion
 echo *******************************************************************
 cd ~
 rm -r ./dataset
+wait
 mkdir ./dataset
 cd ~/dataset
+pwd
 wait
 wget https://raw.githubusercontent.com/adiacla/bigdata/master/papeleria.js
 mongosh --f ~/dataset/papeleria.js
