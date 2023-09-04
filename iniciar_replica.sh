@@ -10,7 +10,7 @@ echo *******************************************************************
 echo Descargando archivos de datos y de configuracion
 echo *******************************************************************
 cd ~
-rm -r dataset
+rm -r -v dataset
 mkdir dataset
 cd ~/dataset
 pwd
@@ -36,15 +36,15 @@ echo *******************************************************************
 echo Creando las carpetas para nodo0 al nodo4
 echo *******************************************************************
 cd ~/
-mkdir -r replica
+rm -r -v replica
 mkdir replica
 echo **************************
 echo Crea nodo0
 echo *************************
-mkdir ./replica/nodo0
-mkdir ./replica/nodo0/key
-mkdir ./replica/nodo0/logs
-mkdir ./replica/nodo0/mongo
+mkdir ~/replica/nodo0
+mkdir ~/replica/nodo0/key
+mkdir ~/replica/nodo0/logs
+mkdir ~/replica/nodo0/mongo
 cp ./keyfile ./replica/nodo0/key
 cp -r ~/replica/nodo0 ~/replica/nodo1
 cp -r ~/replica/nodo0 ~/replica/nodo2
