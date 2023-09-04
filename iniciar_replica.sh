@@ -5,6 +5,7 @@ echo *******************************************************************
 echo Este script funciona cuando ya se tiene instalado monogodb
 echo *******************************************************************
 read -rsn1 -p"Oprima cualquier tecla para continuar"
+read
 echo *******************************************************************
 echo Descargando archivos de datos y de configuracion
 echo *******************************************************************
@@ -21,15 +22,16 @@ wget https://raw.githubusercontent.com/adiacla/bigdata/master/config28000.conf
 wget https://raw.githubusercontent.com/adiacla/bigdata/master/config28001.conf
 wget https://raw.githubusercontent.com/adiacla/bigdata/master/config28002.conf
 wget https://raw.githubusercontent.com/adiacla/bigdata/master/config28003.conf
-wget https://raw.githubusercontent.com/adiacla/bigdata/master/config28004.conf
-wget https://raw.githubusercontent.com/adiacla/bigdata/master/config28005.conf
+wget https://raw.githubusercontent.com/adiacla/bigdata/master/config28004.conf 
 read -rsn1 -p"Oprima cualquier tecla para continuar"
+clear
 echo *******************************************************************
 echo Creando la llave privada
 echo *******************************************************************
 openssl rand -base64 741 > keyfile
 chmod 400 keyfile
 read -rsn1 -p"Oprima cualquier tecla para continuar"
+clear
 echo *******************************************************************
 echo Creando las carpetas para nodo0 al nodo4
 echo *******************************************************************
@@ -55,6 +57,7 @@ cp ~/config28003.conf ~/replica/nodo3/
 cp ~/config28004.conf ~/replica/nodo4/
 cd ~/replica/nodo0/
 read -rsn1 -p"Oprima cualquier tecla para continuar"
+clear
 echo *******************************************************************
 echo Lanzando o desplegando los servicios de mongod en puertos 28800 al 28004
 echo 
@@ -82,6 +85,7 @@ echo password a1234
 echo *******************************************************************
 mongosh --port 28000 --eval 'rs.initiate()' --eval 'db.createUser({user: "adiaz",pwd: "a1234",roles: [{role: "root", db: "admin"}]})'
 read -rsn1 -p"Oprima cualquier tecla para continuar"
+clear
 echo *******************************************************************
 echo Verifique que el servidor Ec2 tiene los puertos
 echo habilitados en el ACL
@@ -97,6 +101,7 @@ mongosh --host "mongoRpl/localhost:28000" -u "adiaz" --authenticationDatabase "a
 read -rsn1 -p"Digite la Ip del nodo 4 EC2 y el puerto 28004" variable
 mongosh --host "mongoRpl/localhost:28000" -u "adiaz" --authenticationDatabase "admin" --eval "rs.add(variable)"
 read -rsn1 -p"Oprima cualquier tecla para continuar"
+clear
 echo *******************************************************************
 echo Felicitaciones ya tienes una replica funcionando
 echo *******************************************************************
