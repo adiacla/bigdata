@@ -57,8 +57,7 @@ def calificacion(dfc,nulosfinales,y_predicNB):
          print('\n')
          print("4. Si borró la  columna CATEG, tiene 1 punto",'\n')
          nota+=1   
-         
-     
+        
     if nulosfinales==0:
          print('________________________________________________________')
          print('\n')
@@ -69,7 +68,6 @@ def calificacion(dfc,nulosfinales,y_predicNB):
          print('\n')
          print("5. No borró los nulos, no tiene punto",'\n')
       
-    
     if dfc.COMPPRES.max()<22710:
          print('________________________________________________________')
          print('\n')
@@ -80,7 +78,6 @@ def calificacion(dfc,nulosfinales,y_predicNB):
          print('\n')
          print("6. No quito los outlier de COMPPRES, no tiene punto",'\n')
     
-    
     if len(dfc)==980:
          print('________________________________________________________')
          print('\n')
@@ -90,7 +87,6 @@ def calificacion(dfc,nulosfinales,y_predicNB):
          print('________________________________________________________')
          print('\n')
          print("7. El dataframe no tiene la cantidad de filas de acuerdo a lo suguerido, no tiene punto",'\n')
-    
     
     if 'ANTIG' in dfc.columns:
          print('________________________________________________________')
@@ -112,14 +108,12 @@ def calificacion(dfc,nulosfinales,y_predicNB):
           print('________________________________________________________')
           print('\n')
           print("9. No realizó la predicción de NB, no tiene punto",'\n')
-
-           
+        
     if nota>7:
            print('________________________________________________________')
            print('\n')
            print("FELICITACIONES HA APROBADO EL EXAMEN")
            display.display(Image.open(requests.get('https://raw.githubusercontent.com/adiacla/bigdata/master/aprobado.jpg',stream=True).raw))
-
     else:
            print('________________________________________________________')
            print('\n')
