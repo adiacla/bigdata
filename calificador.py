@@ -88,7 +88,7 @@ def calificacion(dfc,dfe,nulosfinales,y_predicNB,accuracy):
          print('\n')
          print("7. El dataframe no tiene la cantidad de filas de acuerdo a lo sugerido, no tiene punto",'\n')
     
-    if accuracy<89:
+    if accuracy<89.0:
          print('________________________________________________________')
          print('\n')
          print("8. El accuracy no es el adecuado. No tiene punto",'\n')
