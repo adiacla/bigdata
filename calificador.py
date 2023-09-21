@@ -37,7 +37,7 @@ def calificacion(dfc,dfe,nulosfinales,y_predicNB,exactitud):
         print("2. Si borró la primera columna Unnamed: 0, tiene 1 punto",'\n')
         nota+=1
         
-    if len(dfc.columns)!=13:
+    if len(dfe.columns)!=13:
         print('________________________________________________________')
         print('\n')
         print("3. No convirtió todas las columnas en numéricas, No tiene punto",'\n')
@@ -47,15 +47,15 @@ def calificacion(dfc,dfe,nulosfinales,y_predicNB,exactitud):
         print("3. Si convirtió todas las columnas en numéricas, tiene 1 punto",'\n')
         nota+=1     
         
-    if 'CATEG' in dfc.columns:
+    if 'VISIT' in dfc.columns:
          print('________________________________________________________')
          print('\n')
-         print("4. No borro la  columna CATEG, No tiene punto",'\n')
+         print("4. No borro la  columna VISIT, No tiene punto",'\n')
 
     else:
          print('________________________________________________________')
          print('\n')
-         print("4. Si borró la  columna CATEG, tiene 1 punto",'\n')
+         print("4. Si borró la  columna VISIT, tiene 1 punto",'\n')
          nota+=1   
         
     if nulosfinales==0:
@@ -92,12 +92,12 @@ def calificacion(dfc,dfe,nulosfinales,y_predicNB,exactitud):
     if len(y_predicNB)>0:
           print('________________________________________________________')
           print('\n')
-          print("9. Si realizó la predicion en NB de 196 datos de prueba, tiene 1 punto",'\n')
+          print("8. Si realizó la predicion en NB de 196 datos de prueba, tiene 1 punto",'\n')
           nota+=1
     else:
           print('________________________________________________________')
           print('\n')
-          print("9. No realizó la predicción de NB de los datos de prueba, no tiene punto",'\n')
+          print("8. No realizó la predicción de NB de los datos de prueba, no tiene punto",'\n')
         
     if nota>6:
            print('________________________________________________________')
@@ -110,4 +110,4 @@ def calificacion(dfc,dfe,nulosfinales,y_predicNB,exactitud):
            print("DEBE REPASAR PARA EL PROXIMO EXAMEN, PORQUE TIENE UNA CALIFICACION POR DEBAJO DE 6")           
            display.display(Image.open(requests.get('https://raw.githubusercontent.com/adiacla/bigdata/master/reject.jpg',stream=True).raw))
     
-    return (nota/9)*5
+    return (nota/8)*5
