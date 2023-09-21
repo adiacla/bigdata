@@ -108,15 +108,15 @@ def calificacion(dfc,dfe,nulosfinales,y_predicNB,exactitud):
           print('\n')
           print("9. No realizó la predicción de NB de los datos de prueba, no tiene punto",'\n')
         
-    if nota>7:
+    if nota>6:
            print('________________________________________________________')
            print('\n')
-           print("FELICITACIONES HA APROBADO EL EXAMEN")
+           print("FELICITACIONES HA APROBADO. SI EL EXAMEN ESTA POR ARRIBA FUE 8 EXCELENTE")
            display.display(Image.open(requests.get('https://raw.githubusercontent.com/adiacla/bigdata/master/aprobado.jpg',stream=True).raw))
     else:
            print('________________________________________________________')
            print('\n')
-           print("DEBE REPASAR TIENE UNA CALIFICACION POR DEBAJO DEL 7/12")           
+           print("DEBE REPASAR PARA EL PROXIMO EXAMEN, PORQUE TIENE UNA CALIFICACION POR DEBAJO DE 6")           
            display.display(Image.open(requests.get('https://raw.githubusercontent.com/adiacla/bigdata/master/reject.jpg',stream=True).raw))
     
-    return nota*10/12
+    return (nota/9)*5
