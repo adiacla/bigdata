@@ -7,7 +7,7 @@ Created on Sun Jan  9 16:04:27 2022
 
 """ Módulo para cálculos diversos """
 
-def calificacion(dfc,dfe,nulosfinales,y_predicNB,accuracy):
+def calificacion(dfc,dfe,nulosfinales,y_predicNB,exactitud):
     import os
     #Librerias para mostar unas imagenes
     import IPython.display as display
@@ -88,11 +88,10 @@ def calificacion(dfc,dfe,nulosfinales,y_predicNB,accuracy):
          print('\n')
          print("7. El dataframe no tiene la cantidad de filas de acuerdo a lo sugerido, no tiene punto",'\n')
     
-    if accuracy<89.0:
+    if exactitud<80:
          print('________________________________________________________')
          print('\n')
          print("8. El accuracy no es el adecuado. No tiene punto",'\n')
-
     else:
          print('________________________________________________________')
          print('\n')
