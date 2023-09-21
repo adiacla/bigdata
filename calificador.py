@@ -7,7 +7,7 @@ Created on Sun Jan  9 16:04:27 2022
 
 """ Módulo para cálculos diversos """
 
-def calificacion(dfc,nulosfinales,y_predicNB):
+def calificacion(dfc,dfe,nulosfinales,y_predicNB,accuracy):
     import os
     #Librerias para mostar unas imagenes
     import IPython.display as display
@@ -37,7 +37,7 @@ def calificacion(dfc,nulosfinales,y_predicNB):
         print("2. Si borró la primera columna Unnamed: 0, tiene 1 punto",'\n')
         nota+=1
         
-    if len(df._get_numeric_data.columns)!=13:
+    if len(dfc.columns)!=13:
         print('________________________________________________________')
         print('\n')
         print("3. No convirtió todas las columnas en numéricas, No tiene punto",'\n')
@@ -68,15 +68,15 @@ def calificacion(dfc,nulosfinales,y_predicNB):
          print('\n')
          print("5. No borró los nulos, no tiene punto",'\n')
       
-    if dfc.COMPPRES.max()<22710:
+    if dfe.ANTIG.max()<2121:
          print('________________________________________________________')
          print('\n')
-         print("6. Quito los oytlayer de COMPPRES , tiene 1 punto",'\n')
+         print("6. Quito los outlayer de ANTIF , tiene 1 punto",'\n')
          nota+=1
     else:
          print('________________________________________________________')
          print('\n')
-         print("6. No quito los outlier de COMPPRES, no tiene punto",'\n')
+         print("6. No quito los outlier de ANTIG, no tiene punto",'\n')
     
     if len(dfc)==980:
          print('________________________________________________________')
@@ -86,28 +86,28 @@ def calificacion(dfc,nulosfinales,y_predicNB):
     else:
          print('________________________________________________________')
          print('\n')
-         print("7. El dataframe no tiene la cantidad de filas de acuerdo a lo suguerido, no tiene punto",'\n')
+         print("7. El dataframe no tiene la cantidad de filas de acuerdo a lo sugerido, no tiene punto",'\n')
     
-    if 'ANTIG' in dfc.columns:
+    if 'accuracy'<=89:
          print('________________________________________________________')
          print('\n')
-         print("8. No borro la  columna ANTIG, que tenia colinealidad No tiene punto",'\n')
+         print("8. El accuracy no es el adecuado. No tiene punto",'\n')
 
     else:
          print('________________________________________________________')
          print('\n')
-         print("8. Si borró la  columna ANTIG, que tenía colinealidad, tiene 1 punto",'\n')
+         print("8. Si calculó bien el accuracy, tiene 1 punto",'\n')
          nota+=1
          
     if len(y_predicNB)>0:
           print('________________________________________________________')
           print('\n')
-          print("9. Si realizó la predicion en NB , tiene 1 punto",'\n')
+          print("9. Si realizó la predicion en NB de 196 datos de prueba, tiene 1 punto",'\n')
           nota+=1
     else:
           print('________________________________________________________')
           print('\n')
-          print("9. No realizó la predicción de NB, no tiene punto",'\n')
+          print("9. No realizó la predicción de NB de los datos de prueba, no tiene punto",'\n')
         
     if nota>7:
            print('________________________________________________________')
