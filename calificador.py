@@ -37,15 +37,16 @@ def calificacion(dfc,dfe,nulosfinales,y_predicNB,exactitud):
         print("2. Si borró la primera columna Unnamed: 0, tiene 1 punto",'\n')
         nota+=1
         
-    if len(dfe.columns)!=13:
-        print('________________________________________________________')
-        print('\n')
-        print("3. No convirtió todas las columnas en numéricas, No tiene punto",'\n')
-    else:
+    if len(dfc.columns)!=13:
         print('________________________________________________________')
         print('\n')
         print("3. Si convirtió todas las columnas en numéricas, tiene 1 punto",'\n')
         nota+=1     
+        
+    else:
+        print('________________________________________________________')
+        print('\n')
+        print("3. Si convirtió todas las columnas en numéricas, No tiene punto",'\n')   
         
     if 'VISIT' in dfc.columns:
          print('________________________________________________________')
