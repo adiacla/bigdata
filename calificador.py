@@ -68,7 +68,7 @@ def calificacion(dfc,dfe,nulosfinales,y_predicNB,exactitud):
          print('________________________________________________________')
          print('\n')
          print("5. No borró los nulos, no tiene punto",'\n')
-      
+    print(dfc.columns)
     if dfc.ANTIG.max()<2121:
          print('________________________________________________________')
          print('\n')
