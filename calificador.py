@@ -79,7 +79,7 @@ def calificacion(dfc,dfe,nulosfinales,y_predicNB,exactitud):
          print('\n')
          print("6. No quito los outlier de ANTIG, no tiene punto",'\n')
     
-    if len(dfc)==980:
+    if len(dfe)==980:
          print('________________________________________________________')
          print('\n')
          print("7. El dataframe quedó con 980 rows , tiene 1 punto",'\n')
