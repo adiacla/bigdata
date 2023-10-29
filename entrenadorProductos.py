@@ -17,7 +17,7 @@ import numpy as np
 
 image_path = tf.keras.utils.get_file(
       'flower_photos',
-      'https://storage.googleapis.com/download.tensorflow.org/example_images/flower_photos.tgz',
+      '/content/imagenes.tar.gz',
       untar=True)
 
 data = DataLoader.from_folder(image_path)
