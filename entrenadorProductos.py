@@ -15,11 +15,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-image_path = tf.keras.utils.get_file(
-      'flower_photos',
-      '/content/imagenes.tar.gz',
-      untar=True)
-
+image_path = '/content/drive/MyDrive/Colab Notebooks/imagenes'
 data = DataLoader.from_folder(image_path)
 train_data, test_data = data.split(0.9)
 
