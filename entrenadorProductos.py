@@ -20,3 +20,21 @@ assert tf.__version__.startswith('2')
 tf.get_logger().setLevel('ERROR')
 from absl import logging
 logging.set_verbosity(logging.ERROR)
+
+
+image_path = tf.keras.utils.get_file(
+      'flower_photos',
+      'https://storage.googleapis.com/download.tensorflow.org/example_images/flower_photos.tgz',
+      untar=True)
+
+data = DataLoader.from_folder(image_path)
+train_data, test_data = data.split(0.9)
+
+model = image_classifier.create(train_data)
+
+loss, accuracy = model.evaluate(test_data)
+
+model.export(export_dir='.')
+
+from google.colab import files
+files.download('model.tflite') 
