@@ -29,5 +29,3 @@ loss, accuracy = model.evaluate(test_data)
 
 model.export(export_dir='.')
 
-from google.colab import files
-files.download('model.tflite') 
