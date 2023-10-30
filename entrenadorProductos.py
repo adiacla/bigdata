@@ -17,11 +17,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-image_path = '/content/drive/MyDrive/Colab Notebooks/imagenes'
-data = DataLoader.from_folder(image_path)
-train_data, test_data = data.split(0.9)
-
 spec = model_spec.get('efficientdet_lite2')
+
+train_data, validation_data, test_data = object_detector.DataLoader.from_csv('/content/drive/MyDrive/Colab Notebooks/labeling/retail/train_labels.csv')
+
+
 
 model = object_detector.create(train_data, model_spec=spec, batch_size=8, train_whole_model=True, validation_data=validation_data)
 
