@@ -19,7 +19,7 @@ data = DataLoader.from_folder('/content/drive/MyDrive/Colab Notebooks/imagenes/'
 
 model = image_classifier.create(data)
 
-loss, accuracy = model.evaluate()
+loss, accuracy = model.evaluate(data)
 
 
 model.export(export_dir='.')
