@@ -1,0 +1,4 @@
+0 Jabón
+1 Gaseosa
+2 Desodorante
+3 Cafe
