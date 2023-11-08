@@ -1,0 +1,195 @@
+EJERCICIO DE REPLICACION DE CLASE
+
+********************************
+Vaya colocando en las lineas que 
+cosidere necesario el texto de la actividad 
+realizada
+********************************
+
+
+//Escriba la actividad realizada
+
+ps –ef|grep mongo
+mkdir particion
+cd particion
+mkdir -p node1/data node1/logs node2/data node2/logs node3/data node3/logs
+tree
+
+//Escriba la actividad realizada
+
+mongod --dbpath node1/data --logpath node1/logs/mongod.log --port 27020  --replSet replicas --oplogSize 50 --fork
+mongod --dbpath node2/data --logpath node2/logs/mongod.log --port 27018 --replSet replicas --oplogSize 50 --fork
+mongod --dbpath node3/data --logpath node3/logs/mongod.log --port 27019 --replSet replicas --oplogSize 50 --fork
+mongosh –port 27020
+
+//Escriba la actividad realizada
+
+rs.initiate(
+{
+ "_id":"replicas",
+ "version":1,
+ "members": [
+	{"_id":0, “host": "localhost:27020" },
+	{"_id":1, "host": "localhost:27018" },
+	{"_id":2, "host": "localhost:27019" }
+	]
+}
+)
+
+//Escriba la actividad realizada
+
+rs.conf()
+db.isMaster()
+rs.status()
+
+//Escriba la actividad realizada
+
+
+mkdir -p node4/data node4/logs
+mongod --dbpath node4/data --logpath node4/logs/mongod.log --port 27021 --replSet replicas --oplogSize 50 --fork
+mongosh –port 27020
+rs.add("localhost:27021")
+
+//Escriba la actividad realizada
+
+rs.stepDown() 
+rs.conf() 
+
+//Escriba la actividad realizada
+
+mongosh mongodb://localhost:27020,localhost:27018,localhost:27019,localhost:27021/?replicaSet=replicas
+
+
+//Escriba la actividad realizada
+
+
+cfg = rs.conf()
+cfg.members[0]
+cfg.members[0].priority = 2
+cfg.members[0]
+cfg.members[1].priority = 1
+cfg.members[2].priority = 0.5
+cfg.members[3].priority = 0
+rs.reconfig(cfg)
+rs.stepDown()
+rs.status()
+
+//Escriba la actividad realizada
+
+
+cfg = rs.conf()
+cfg.members[3].priority = 0
+cfg.members[3].hidden = true
+cfg.members[3].tags={"descripcion":"Servidor escondido","uso":"Para pruebas"}
+rs.reconfig(cfg)
+rs.config().members[3]
+
+//Escriba la actividad realizada
+
+
+cfg = rs.conf()
+cfg.members[2].priority = 0
+cfg.members[2].slaveDelay = 3600
+cfg.members[3].tags={"descripcion":"Servidor retrazado","uso":"Para recuperacion"}
+rs.reconfig(cfg)
+rs.config().members[3]
+
+//Escriba la actividad realizada
+
+
+cfg = rs.conf()
+cfg.members[2].votes = 2
+cfg.members[3].votes = 0
+rs.reconfig(cfg)
+rs.config().members[3]
+
+//Escriba la actividad realizada
+
+
+mkdir -p arb/data arb/logs 
+mongod --dbpath arb/data --logpath arb/logs/mongod.log --port 27022 --replSet replicas --fork
+
+mongosh mongodb://localhost:27020,localhost:27018,localhost:27019,localhost:27021/?replicaSet=replicas
+
+rs.addArb("localhost:27022")
+rs.config().members[4]
+
+//Escriba la actividad realizada
+
+
+cfg = rs.conf()
+cfg.members = [cfg.members[0]]
+rs.reconfig(cfg,{force:true})
+
+//Escriba la actividad realizada
+
+rs.printSecondaryReplicationInfo().
+
+//Escriba la actividad realizada
+
+use tienda
+db.products.insertMany(
+[
+{"item":"Camisas","cantidad":{"$numberInt":"38"},"color":["negro","rojo"],"medidas":{"h":{"$numberInt":"14"},"w":{"$numberInt":"21"},"udm":"cm"}},
+
+{"item":"Medias","cantidad":{"$numberInt":"25"},"color":["blanca","amarillo","azul"],"medidas":{"h":{"$numberInt":"19"},"w":{"$numberDouble":"22.85"},"udm":"cm"}},
+
+{"_id":1,"item":"Medias","cantidad":{"$numberInt":"25"},"color":["blanca","amarillo","azul"],"medidas":{"h":{"$numberInt":"19"},"w":{"$numberDouble":"22.85"},"udm":"cm"}}
+]
+)
+rs.printReplicationInfo()
+
+//Escriba la actividad realizada
+
+use local
+db.oplog.rs.find()
+
+use tienda
+db.products.insertOne(
+{"item":"petroleo","cantidad":{"$numberInt":"38"},"color":["negro","rojo"],"medidas":{"h":{"$numberInt":"14"},"w":{"$numberInt":"21"},"udm":"cm"}},
+)
+
+use local
+db.oplog.rs.find().sort({"wall":-1ts})
+
+//Escriba la actividad realizada
+
+
+mongosh --port 27019
+use admin
+db.sutdownserver()
+exit()
+
+netstat –ano|grep mongo
+mongosh mongodb://localhost:27020,localhost:27018,localhost:27019,localhost:27021/?replicaSet=replicas
+
+//Escriba la actividad realizada
+
+
+use tienda
+db.products.insertOne({"item":"mesas","cantidad":{"$numberInt":"38"},"color":["negro","rojo"],"medidas":{"h":{"$numberInt":"14"},"w":{"$numberInt":"21"},"udm":"cm"}})
+rs.status()
+db.products.insertOne(
+{"item":"mesas","cantidad":{"$numberInt":"38"},"color":["negro","rojo"],"medidas":{"h":{"$numberInt":"14"},"w":{"$numberInt":"21"},"udm":"cm"}},
+)
+rs.printReplicationInfo()
+rs.printSecondaryReplicationInfo()
+
+
+//Escriba la actividad realizada
+
+mongod --dbpath node3/data --logpath node3/logs/mongod.log --port 27019 --replSet replicas --oplogSize 50 --fork
+
+mongosh mongodb://localhost:27020,localhost:27018,localhost:27019,localhost:27021/?replicaSet=replicas
+
+rs.status() o db.adminCommand( { replSetGetStatus : 1 } ) o db.hello()
+rs.status().members[2]
+
+
+//Escriba la actividad realizada
+
+rs.remove(locahost:27019')
+cls
+rs.status()
+rs.add("localhost:27019")
+rs.status()
