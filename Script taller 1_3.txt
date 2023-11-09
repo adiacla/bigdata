@@ -1,0 +1,483 @@
+*****************************************
+Práctica 1.1: Acceso al entorno de curso
+TALLER DEL DOCENTE
+*****************************************
+
+
+*****************************************
+Práctica 1.2: Instalación del Software
+*****************************************
+Instalar MongoDB Community Edition en Red Hat o CentOS
+
+//Siga estos pasos para instalar MongoDB Community Edition 
+//utilizando el administrador de paquetes yum.
+//Configurar el sistema de gestión de paquetes (yum).
+
+cd /etc/yum.repos.d/
+sudo nano mongodb-org-7.0.repo
+[mongodb-org-7.0]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/7.0/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.mongodb.org/static/pgp/server-7.0.asc
+
+CTRL x
+teclee y
+
+//Instale los paquetes de MongoDB.
+//Para instalar la última versión estable de MongoDB, ejecute el siguiente comando:
+
+sudo yum install -y mongodb-org
+
+cd ~
+
+//Inicie MongoDB.
+//Puede iniciar el proceso mongod emitiendo el siguiente comando:
+
+sudo systemctl start mongod
+
+//Verifique que MongoDB se haya iniciado correctamente.
+//Puede verificar que el proceso mongod se haya iniciado correctamente emitiendo el siguiente comando:
+sudo systemctl status mongod
+
+
+//Opcionalmente, puede asegurarse de que 
+//MongoDB comience después de reiniciar el 
+//sistema emitiendo el siguiente comando:
+
+sudo systemctl enable mongod
+
+//Detenga MongoDB.
+//Según sea necesario, puede detener el 
+//proceso mongod emitiendo el siguiente comando:
+
+sudo systemctl stop mongod
+
+//Reinicie MongoDB.
+//Puede reiniciar el proceso mongod emitiendo 
+//el siguiente comando:
+sudo systemctl restart mongod
+
+
+//Detenga MongoDB.
+//Detenga el proceso mongod emitiendo el siguiente comando:
+//parada de mongod del servicio sudo
+
+sudo service mongod stop
+
+//Eliminar paquetes.
+//Elimine cualquier paquete de MongoDB que haya instalado previamente.
+
+sudo yum erase $(rpm -qa | grep mongodb-org)
+
+
+//Eliminar directorios de datos.
+//Elimine las bases de datos y los archivos de registro de MongoDB.
+
+sudo rm -r /var/log/mongodb
+sudo rm -r /var/lib/mongo
+
+
+//Recorrer las carpetas de instalación y logs
+cd  /var/lib/mongo
+ls -la
+
+cd /var/log/mongodb
+ls -la
+
+//reconocer el archivo de configuración del servicio
+de mongo instalado en la carpeta etc
+cd /etc
+ls -la 
+sudo nano mongod.conf
+CTRL x
+teclee n
+
+//copiemos el archivo en nuestra carpeta de trabajo
+cp mongod.conf /home/netek
+cd ~
+pwd
+chmod 666 mongod.conf
+
+*****************************************
+Práctica 1.3.A: Operaciones mongod
+EJERCICIO DE INICIO DE UNA NUEVA INSTANCIA DE MongoDB
+
+****************************************
+ps -ef|grep mongo
+netstat -nao|grep mongo
+
+mkdir -p server1/db  server1/logs
+tree
+cd server1
+
+
+// Lanzamos mongod en primer plano
+mongod --dbpath server1/data --logpath server1/logs/mongod.log --port 27018
+
+//Queda bloqueda la sesion terminal en primer plano
+CTRL Z o CTRL C
+
+//Reiniciamos en segundo plano con fork
+mongod --dbpath server1/data --logpath server1/logs/mongod.log --port 27018 --fork
+
+ps -ef|grep mongo
+netstat -nao|grep mongo
+
+//Conectarse a al servicio
+//mongosh "mongodb://localhost:27018 
+//mongosh "mongodb+srv://mycluster.abcd1.mongodb.net/myFirstDatabase" --apiVersion 1 --username <username>
+// simplemente
+mongosh --port 27018
+show dbs
+
+use nomina
+db.createCollection("empleados")
+
+use almacen
+db.productos.insertMany( [
+      { _id: 10, item: "large box", qty: 20 },
+      { _id: 11, item: "small box", qty: 55 },
+      { _id: 11, item: "medium box", qty: 30 },
+      { _id: 12, item: "envelope", qty: 100},
+      { _id: 13, item: "stamps", qty: 125 },
+      { _id: 13, item: "tape", qty: 20},
+      { _id: 14, item: "bubble wrap", qty: 30}
+   ])
+   
+//Verifique que errores se presentan al ingresar los documentos
+db.productos.find()
+
+//Operaciones con el prompt
+
+let cmdCount = 1;
+
+prompt = function() {
+(cmdCount++) + "> "
+}
+
+//Desplegar en el prompt detalles del servidor
+
+prompt = function()
+{
+   const hostnameSymbol = Symbol('hostname');
+   prompt = () => {
+      if (!db[hostnameSymbol])
+         db[hostnameSymbol] = db.serverStatus().host;
+      return `${db.getName()}@${db[hostnameSymbol]}> `;
+   };
+}
+
+
+
+//cambiar el nombre a la db
+db.adminCommand(
+  {
+     renameCollection: "almacen.producto",
+     to: "store.items"
+  }
+)
+
+db.getMongo()
+db.getName()
+
+use admin
+db.shutdownServer()
+exit
+
+ps -ef|grep mongo
+netstat -nao|grep mongo
+
+//Lanzando un mongod con un usuario creado
+
+//mongosh admin --host localhost:27017 --eval 'db.createUser({user: "root
+//",pwd: "Dclaros1",roles: [{role: "root", db: "admin"}]})'
+
+//Crear un archivo de configuracion
+cd ~
+cp mongod.conf ./server1/server1.config
+nano server1.config
+
+//Edite el archivo de la siguiente manera
+
+
+********************************************
+
+# mongod.conf
+
+# for documentation of all options, see:
+#   http://docs.mongodb.org/manual/reference/configuration-options/
+
+# where to write logging data.
+
+systemLog:
+  destination: file
+  logAppend: true
+  path: /home/netek/server1/logs/server1.log
+
+# Where and how to store data.
+storage:
+  dbPath: /home/netek/server1/db
+  journal:
+    enabled: true
+#  engine:
+#  wiredTiger:
+
+# how the process runs
+processManagement:
+  fork: true
+  timeZoneInfo: /usr/share/zoneinfo
+
+# network interfaces
+net:
+  port: 27018
+  bindIp: 127.0.0.1  # Enter 0.0.0.0,:: to bind to all IPv4 and IPv6 addresses or, alternatively, use the net.bindIpAll$
+
+#security:
+
+#operationProfiling:
+
+#replication:
+
+#sharding:
+
+## Enterprise-Only Options
+#auditLog:
+#snmp:
+
+*************************************
+
+//ejecute el inicio del servidor
+mongod -f server1.conf
+
+mongosh --port 27018
+
+db.createUser({user: "root",pwd:"Dclaros1",roles: [{role: "root", db: "admin"}]})'
+
+//Habilitemos la seguridad
+
+
+nano server1.config
+security:
+  authorization: 'enabled'
+
+mongod -f server1.conf
+
+mongosh admin --port 27018  -u root -p Dclaros1
+
+use admin
+db.shutdownServer()
+exit
+
+ps -ef|grep mongo
+netstat -nao|grep mongo
+
+
+
+
+*****************************************
+Práctica 1.3: Replicación
+EJERCICIO DE REPLICACION DE CLASE
+****************************************
+
+********************************
+Vaya colocando en las lineas que 
+considere necesario el texto de la actividad 
+realizada
+********************************
+
+
+//Escriba la actividad realizada
+
+ps –ef|grep mongo
+mkdir particion
+cd particion
+mkdir -p node1/data node1/logs node2/data node2/logs node3/data node3/logs
+tree
+
+//Escriba la actividad realizada
+
+mongod --dbpath node1/data --logpath node1/logs/mongod.log --port 27020  --replSet replicas --oplogSize 50 --fork
+mongod --dbpath node2/data --logpath node2/logs/mongod.log --port 27018 --replSet replicas --oplogSize 50 --fork
+mongod --dbpath node3/data --logpath node3/logs/mongod.log --port 27019 --replSet replicas --oplogSize 50 --fork
+mongosh --port 27020
+
+//Escriba la actividad realizada
+
+rs.initiate(
+{
+ "_id":"replicas",
+ "version":1,
+ "members": [
+	{"_id":0, "host": "localhost:27020" },
+	{"_id":1, "host": "localhost:27018" },
+	{"_id":2, "host": "localhost:27019" }
+	]
+}
+)
+
+//Escriba la actividad realizada
+
+rs.conf()
+db.isMaster()
+rs.status()
+
+//Escriba la actividad realizada
+
+
+mkdir -p node4/data node4/logs
+mongod --dbpath node4/data --logpath node4/logs/mongod.log --port 27021 --replSet replicas --oplogSize 50 --fork
+mongosh --port 27020
+rs.add("localhost:27021")
+
+//Escriba la actividad realizada
+
+rs.stepDown() 
+rs.conf() 
+
+//Escriba la actividad realizada
+
+mongosh mongodb://localhost:27020,localhost:27018,localhost:27019,localhost:27021/?replicaSet=replicas
+
+
+//Escriba la actividad realizada
+
+
+cfg = rs.conf()
+cfg.members[0]
+cfg.members[0].priority = 3
+cfg.members[0]
+cfg.members[1].priority = 2
+cfg.members[2].priority = 1
+cfg.members[3].priority = 0
+rs.reconfig(cfg)
+rs.stepDown()
+rs.status()
+
+//Escriba la actividad realizada
+
+
+cfg = rs.conf()
+cfg.members[3].priority = 0
+cfg.members[3].hidden = true
+cfg.members[3].tags={"descripcion":"Servidor escondido","uso":"Para pruebas"}
+rs.reconfig(cfg)
+rs.config().members[3]
+
+//Escriba la actividad realizada
+
+
+cfg = rs.conf()
+cfg.members[2].priority = 0
+cfg.members[2].secondayDelaySecs = 3600
+cfg.members[2].tags={"descripcion":"Servidor retrazado","uso":"Para recuperacion"}
+rs.reconfig(cfg)
+rs.config().members[2]
+
+//Escriba la actividad realizada
+
+
+cfg = rs.conf()
+cfg.members[2].votes = 1
+cfg.members[3].votes = 0
+rs.reconfig(cfg)
+rs.config().members[3]
+
+//Escriba la actividad realizada
+
+
+mkdir -p arb/data arb/logs 
+mongod --dbpath arb/data --logpath arb/logs/mongod.log --port 27022 --replSet replicas --fork
+
+mongosh mongodb://localhost:27020,localhost:27018,localhost:27019,localhost:27021/?replicaSet=replicas
+
+db.adminCommand({
+   "setDefaultRWConcern" : 1,
+   "defaultWriteConcern" : {
+     "w" : 1
+   }
+ })
+ 
+rs.addArb("localhost:27022")
+rs.config().members[4]
+
+//Escriba la actividad realizada
+
+
+cfg = rs.conf()
+cfg.members = [cfg.members[0]]
+rs.reconfig(cfg,{force:true})
+
+//Escriba la actividad realizada
+
+rs.printSecondaryReplicationInfo().
+
+//Escriba la actividad realizada
+
+use tienda
+db.products.insertMany(
+[
+{"item":"Camisas","cantidad":{"$numberInt":"38"},"color":["negro","rojo"],"medidas":{"h":{"$numberInt":"14"},"w":{"$numberInt":"21"},"udm":"cm"}},
+
+{"item":"Medias","cantidad":{"$numberInt":"25"},"color":["blanca","amarillo","azul"],"medidas":{"h":{"$numberInt":"19"},"w":{"$numberDouble":"22.85"},"udm":"cm"}},
+
+{"_id":1,"item":"Medias","cantidad":{"$numberInt":"25"},"color":["blanca","amarillo","azul"],"medidas":{"h":{"$numberInt":"19"},"w":{"$numberDouble":"22.85"},"udm":"cm"}}
+]
+)
+rs.printReplicationInfo()
+
+//Escriba la actividad realizada
+
+use local
+db.oplog.rs.find()
+
+use tienda
+db.products.insertOne(
+{"item":"petroleo","cantidad":{"$numberInt":"38"},"color":["negro","rojo"],"medidas":{"h":{"$numberInt":"14"},"w":{"$numberInt":"21"},"udm":"cm"}},
+)
+
+use local
+db.oplog.rs.find().sort({"wall":-1})
+
+//Escriba la actividad realizada
+
+
+mongosh --port 27019
+use admin
+db.sutdownserver()
+exit()
+
+netstat –ano|grep mongo
+mongosh mongodb://localhost:27020,localhost:27018,localhost:27019,localhost:27021/?replicaSet=replicas
+
+//Escriba la actividad realizada
+
+
+use tienda
+db.products.insertOne({"item":"mesas","cantidad":{"$numberInt":"38"},"color":["negro","rojo"],"medidas":{"h":{"$numberInt":"14"},"w":{"$numberInt":"21"},"udm":"cm"}})
+rs.status()
+db.products.insertOne(
+{"item":"mesas","cantidad":{"$numberInt":"38"},"color":["negro","rojo"],"medidas":{"h":{"$numberInt":"14"},"w":{"$numberInt":"21"},"udm":"cm"}},
+)
+rs.printReplicationInfo()
+rs.printSecondaryReplicationInfo()
+
+
+//Escriba la actividad realizada
+
+mongod --dbpath node3/data --logpath node3/logs/mongod.log --port 27019 --replSet replicas --oplogSize 50 --fork
+
+mongosh mongodb://localhost:27020,localhost:27018,localhost:27019,localhost:27021/?replicaSet=replicas
+
+rs.status() o db.adminCommand( { replSetGetStatus : 1 } ) o db.hello()
+rs.status().members[2]
+
+
+//Escriba la actividad realizada
+
+rs.remove('locahost:27019')
+cls
+rs.status()
+rs.add("localhost:27019")
+rs.status()
