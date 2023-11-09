@@ -2,6 +2,17 @@
 Práctica 1.1: Acceso al entorno de curso
 TALLER DEL DOCENTE
 *****************************************
+La liga después del registro con la que pueden revisar la disponibilidad de su equipo para poder realizar practicas
+
+https://labs.azure.com/
+Ingresa  con usuario y contraseña de una cuenta Sunat
+
+Los datos para conectarte al equipo para el xRDP así como para SSH son:
+ 
+User: netec
+Pass: Pa55w.rd     
+
+//Ejecute la Máquina virtual y conectese
 
 
 *****************************************
