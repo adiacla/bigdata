@@ -20,7 +20,7 @@ tree
 mongod --dbpath node1/data --logpath node1/logs/mongod.log --port 27020  --replSet replicas --oplogSize 50 --fork
 mongod --dbpath node2/data --logpath node2/logs/mongod.log --port 27018 --replSet replicas --oplogSize 50 --fork
 mongod --dbpath node3/data --logpath node3/logs/mongod.log --port 27019 --replSet replicas --oplogSize 50 --fork
-mongosh –port 27020
+mongosh --port 27020
 
 //Escriba la actividad realizada
 
@@ -29,7 +29,7 @@ rs.initiate(
  "_id":"replicas",
  "version":1,
  "members": [
-	{"_id":0, “host": "localhost:27020" },
+	{"_id":0, "host": "localhost:27020" },
 	{"_id":1, "host": "localhost:27018" },
 	{"_id":2, "host": "localhost:27019" }
 	]
@@ -47,7 +47,7 @@ rs.status()
 
 mkdir -p node4/data node4/logs
 mongod --dbpath node4/data --logpath node4/logs/mongod.log --port 27021 --replSet replicas --oplogSize 50 --fork
-mongosh –port 27020
+mongosh --port 27020
 rs.add("localhost:27021")
 
 //Escriba la actividad realizada
@@ -65,10 +65,10 @@ mongosh mongodb://localhost:27020,localhost:27018,localhost:27019,localhost:2702
 
 cfg = rs.conf()
 cfg.members[0]
-cfg.members[0].priority = 2
+cfg.members[0].priority = 3
 cfg.members[0]
-cfg.members[1].priority = 1
-cfg.members[2].priority = 0.5
+cfg.members[1].priority = 2
+cfg.members[2].priority = 1
 cfg.members[3].priority = 0
 rs.reconfig(cfg)
 rs.stepDown()
@@ -89,16 +89,16 @@ rs.config().members[3]
 
 cfg = rs.conf()
 cfg.members[2].priority = 0
-cfg.members[2].slaveDelay = 3600
-cfg.members[3].tags={"descripcion":"Servidor retrazado","uso":"Para recuperacion"}
+cfg.members[2].secondayDelaySecs = 3600
+cfg.members[2].tags={"descripcion":"Servidor retrazado","uso":"Para recuperacion"}
 rs.reconfig(cfg)
-rs.config().members[3]
+rs.config().members[2]
 
 //Escriba la actividad realizada
 
 
 cfg = rs.conf()
-cfg.members[2].votes = 2
+cfg.members[2].votes = 1
 cfg.members[3].votes = 0
 rs.reconfig(cfg)
 rs.config().members[3]
@@ -111,6 +111,13 @@ mongod --dbpath arb/data --logpath arb/logs/mongod.log --port 27022 --replSet re
 
 mongosh mongodb://localhost:27020,localhost:27018,localhost:27019,localhost:27021/?replicaSet=replicas
 
+db.adminCommand({
+   "setDefaultRWConcern" : 1,
+   "defaultWriteConcern" : {
+     "w" : 1
+   }
+ })
+ 
 rs.addArb("localhost:27022")
 rs.config().members[4]
 
@@ -150,7 +157,7 @@ db.products.insertOne(
 )
 
 use local
-db.oplog.rs.find().sort({"wall":-1ts})
+db.oplog.rs.find().sort({"wall":-1})
 
 //Escriba la actividad realizada
 
@@ -188,7 +195,7 @@ rs.status().members[2]
 
 //Escriba la actividad realizada
 
-rs.remove(locahost:27019')
+rs.remove('locahost:27019')
 cls
 rs.status()
 rs.add("localhost:27019")
