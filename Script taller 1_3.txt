@@ -1,4 +1,4 @@
-*****************************************
+****************************************
 Práctica 1.1: Acceso al entorno de curso
 TALLER DEL DOCENTE
 *****************************************
@@ -18,13 +18,16 @@ Pass: Pa55w.rd
 *****************************************
 Práctica 1.2: Instalación del Software
 *****************************************
-Instalar MongoDB Community Edition en Red Hat o CentOS
+//Instalar MongoDB Community Edition en Red Hat o CentOS
 
 //Siga estos pasos para instalar MongoDB Community Edition 
 //utilizando el administrador de paquetes yum.
 //Configurar el sistema de gestión de paquetes (yum).
 
 cd /etc/yum.repos.d/
+
+//Se abre editor con root
+
 sudo nano mongodb-org-7.0.repo
 [mongodb-org-7.0]
 name=MongoDB Repository
@@ -49,8 +52,9 @@ cd ~
 sudo systemctl start mongod
 
 //Verifique que MongoDB se haya iniciado correctamente.
-//Puede verificar que el proceso mongod se haya iniciado correctamente emitiendo el siguiente comando:
+//Puede verificar que el proceso mongod se haya iniciado //correctamente emitiendo el siguiente comando:
 sudo systemctl status mongod
+CTRL C
 
 
 //Opcionalmente, puede asegurarse de que 
@@ -97,6 +101,8 @@ ls -la
 cd /var/log/mongodb
 ls -la
 
+sudo cat mongod.log
+
 //reconocer el archivo de configuración del servicio
 de mongo instalado en la carpeta etc
 cd /etc
@@ -106,10 +112,10 @@ CTRL x
 teclee n
 
 //copiemos el archivo en nuestra carpeta de trabajo
-cp mongod.conf /home/netek
+sudo cp mongod.conf /home/netec
 cd ~
 pwd
-chmod 666 mongod.conf
+sudo chmod 666 mongod.conf
 
 *****************************************
 Práctica 1.3.A: Operaciones mongod
@@ -125,19 +131,21 @@ cd server1
 
 
 // Lanzamos mongod en primer plano
-mongod --dbpath server1/data --logpath server1/logs/mongod.log --port 27018
+mongod --dbpath db --logpath logs/mongod.log --port 27018
+***Si estoy en la carpeta server1 no debo incluila en el path
+
 
 //Queda bloqueda la sesion terminal en primer plano
 CTRL Z o CTRL C
 
 //Reiniciamos en segundo plano con fork
-mongod --dbpath server1/data --logpath server1/logs/mongod.log --port 27018 --fork
+mongod --dbpath db --logpath logs/mongod.log --port 27018 --fork
 
 ps -ef|grep mongo
 netstat -nao|grep mongo
 
 //Conectarse a al servicio
-//mongosh "mongodb://localhost:27018 
+//mongosh mongodb://localhost:27018 
 //mongosh "mongodb+srv://mycluster.abcd1.mongodb.net/myFirstDatabase" --apiVersion 1 --username <username>
 // simplemente
 mongosh --port 27018
@@ -162,8 +170,7 @@ db.productos.find()
 
 //Operaciones con el prompt
 
-let cmdCount = 1;
-
+let cmdCount = 1
 prompt = function() {
 (cmdCount++) + "> "
 }
@@ -183,10 +190,12 @@ prompt = function()
 
 
 //cambiar el nombre a la db
+use admin
+
 db.adminCommand(
   {
-     renameCollection: "almacen.producto",
-     to: "store.items"
+     renameCollection: "almacen.productos",
+     to: "almacen.items"
   }
 )
 
@@ -208,6 +217,7 @@ netstat -nao|grep mongo
 //Crear un archivo de configuracion
 cd ~
 cp mongod.conf ./server1/server1.config
+cd server1
 nano server1.config
 
 //Edite el archivo de la siguiente manera
@@ -225,11 +235,11 @@ nano server1.config
 systemLog:
   destination: file
   logAppend: true
-  path: /home/netek/server1/logs/server1.log
+  path: /home/netec/server1/logs/mongod.log
 
 # Where and how to store data.
 storage:
-  dbPath: /home/netek/server1/db
+  dbPath: /home/netec/server1/db
   journal:
     enabled: true
 #  engine:
@@ -264,10 +274,14 @@ mongod -f server1.conf
 
 mongosh --port 27018
 
-db.createUser({user: "root",pwd:"Dclaros1",roles: [{role: "root", db: "admin"}]})'
+use admin
+
+db.createUser({user: "root",pwd:"Dclaros1",roles: [{role: "root", db: "admin"}]})
+
 
 //Habilitemos la seguridad
-
+db.shutdownServer()
+exit
 
 nano server1.config
 security:
@@ -276,6 +290,13 @@ security:
 mongod -f server1.conf
 
 mongosh admin --port 27018  -u root -p Dclaros1
+
+db.runCommand('connectionStatus')
+
+
+
+mongosh --port 27018
+use admin
 
 use admin
 db.shutdownServer()
@@ -301,9 +322,9 @@ realizada
 
 //Escriba la actividad realizada
 
-ps –ef|grep mongo
-mkdir particion
-cd particion
+ps -ef|grep mongo
+mkdir replica
+cd replica
 mkdir -p node1/data node1/logs node2/data node2/logs node3/data node3/logs
 tree
 
@@ -342,9 +363,11 @@ mongod --dbpath node4/data --logpath node4/logs/mongod.log --port 27021 --replSe
 mongosh --port 27020
 rs.add("localhost:27021")
 
+
+
 //Escriba la actividad realizada
 
-rs.stepDown() 
+rs.stepDown()
 rs.conf() 
 
 //Escriba la actividad realizada
