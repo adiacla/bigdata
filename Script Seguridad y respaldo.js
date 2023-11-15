@@ -48,6 +48,9 @@ db.inventario.insertMany( [
  { "item": "impresora", "qty":16,"precio":NumberDecimal("2.3"),"color":["blanco"],"tamano":[12.7,14.6,16],"stock": [ { "bodega": "principal", "ubicacion":[-77.02824,-12.04318],"cantidad": 40 }, { "bodega": "regional", "ubicacion":[-79.02998,-8.11599],"cantidad": 5 } ],"estado":"A", "ventas": { "nacional": 9, "internacional": 10, "licencia":true },"fecha" : ISODate("2015-06-04T05:08:13Z"),"evaCalidad": [ 6, 8, 8 ], "evaLogistica": [ 9, 9, 9 ], "localizacion": { "type": "Point", "coordinates": [-71.96734,-13.52264 ] },"ciudad":"Cusco","detalle":{"producto": "impresora","codigobar" : "314021188888"}},
  { "item": "tarjetas", "qty":40,"precio":NumberDecimal("4.1"),"color":["gris"], "tamano":[5.1,7.2,2],"stock": [ { "bodega": "regional","ubicacion":[-79.02998,-8.11599], "cantidad": 15 }, { "bodega": "sucursal", "ubicacion":[-71.535,-16.39889],"cantidad": 35 } ],"estado":"C", "ventas": { "nacional": 7, "internacional": 18, "licencia":true },"fecha" : ISODate("2015-06-04T05:08:13Z"),"evaCalidad": [6, 9, 6 ], "evaLogistica": [ 8, 8, 8 ], "localizacion": { "type": "Point", "coordinates": [-74.22321,-13.15878 ] },"ciudad":"Ayacucho","detalle":{"producto": "tarjetas","codigobar" : "818060327925"}}])
 
+
+db.inventario.findOne()
+
 //Salimos de la base de datos
 exit
 
@@ -90,8 +93,6 @@ systemLog:
 # Where and how to store data.
 storage:
   dbPath: nodo1/data
-  journal:
-    enabled: true
 #  engine:
 #  wiredTiger:
 
@@ -105,8 +106,8 @@ net:
   port: 27018
   bindIp: 127.0.0.1  # Enter 0.0.0.0,:: to bind to all IPv4 and IPv6 addresses or, alternatively, use the net.bindIpAll$
 
-security
-	authorization: "enabled"
+security:
+  authorization: "enabled"
 #operationProfiling:
 #replication:
 #sharding:
@@ -123,11 +124,6 @@ Autentiquese como root
 
 mongosh --port 27018 -u "root" -p "root123" --authenticationDatabase "admin"
 mongosh --port 27018 --username root --password root123 --authenticationDatabase admin
-
-********************************
-En el archivo conf YAML
-********************************
-
 
 use almacen
 db.createUser(
@@ -151,7 +147,12 @@ db.createUser( {
    pwd: passwordPrompt(),   
    roles:[ "readWrite" ]
 } )
+db.getUsers()
+
 db.dropUser("adiaz3")
+db.getUser("adiaz3")
+
+//Borramos un usuario de la db
 
 db.runCommand( {
    dropUser: "adiaz3",
@@ -164,7 +165,8 @@ db.runCommand( {
    roles : [ { role : "read", db : "almacen" } ]
 } )
 
-db.updateUser( "adiaz1",
+
+db.updateUser( "adiaz2",
 {
    customData : { empleado : "id1234" },
    roles : [
@@ -172,9 +174,11 @@ db.updateUser( "adiaz1",
    ]
 } )
 
+use admin
+
 db.updateUser("adiaz1",
 {
-roles:[{role:"userAdmin",db:"alamcen"},{role:"dbAdmin",db:"peliculas"}]
+roles:[{role:"userAdmin",db:"almacen"},{role:"dbAdmin",db:"peliculas"}]
 }
 )
 
@@ -219,9 +223,9 @@ db.createUser(
 
 db.createUser(
   {
-    user: "userInv",
+    user: "userAlm",
     pwd: "a1234",
-    roles: [ { role: "read", db: "almacen", collection:"productos" } ]
+    roles: [ { role: "read", db: "almacen", collection:"inventaro" } ]
   }
 )
 
@@ -237,18 +241,17 @@ db.createUser(
 use universidad
 db.estudiantes.insertOne({ nombre: "Alfredo", periodo: Int32(2023), carrera: "Ciencia de datos", gpa: Int32(3), ubicacion: { ciudad: "Lima", direccion: "Avenida Javier Prado Este No. 4600Urbanización Fundo Monterrico Chico" } })
 db.getUsers()
-db.grantRolesToUser( "dba",  [ { db: "playground", role: "dbOwner"  } ] )
 use almacen
-db.grantRolesToUser( "userInv",  [ { db: "universidad", role: "dbOwner"  } ] )
+db.grantRolesToUser( "almacenUser",  [ { db: "universidad", role: "dbOwner"  } ] )
  
 use universidad
 db.getUsers()
  
-Conceder roles a usuario
+//Conceder roles a usuario
 
-db.grantRolesToUser( "dba",  [ { db: "adiaz1", role: "dbOwner"  } ] )
+db.grantRolesToUser( "adiaz2",  [ { db: "universidad", role: "dbOwner"  } ] )
 
-Mostrar los privilegios de los roles
+//Mostrar los privilegios de los roles
 
 db.updateUser("adiaz2",
 {
@@ -396,63 +399,25 @@ Las opciones son las siguientes
  --oplogReplay
 */
 mkdir backup
-mongodump \
-   --host=localhost \
-   --port=27018 \
-   --username=root \
-   --password="root123" \
-   --out=./backup/mongodump
  
+mongodump  --host=localhost --port=27018 --username=root --password="root123" --out=./backup/mongodump 
 
-mongodump \
-   --host=localhost \
-   --port=27018 \
-   --username=root \
-   --password="root123" \
-   --out=./backup/dumpAlmacen
-   --db almacen
-   --producto
-   
- mongodump \
-   --host=localhost \
-   --port=27018 \
-   --username=root \
-   --password="root123" \
-   --gzip 
-   --archive=./backup/backup.gz
-   --db almacen
-   --producto
+//Garantizar que tenemos un usuario de la base de datos con permiso de backup
 
+mongodump --host=localhost --port=27018 --username=root --password="root123" --gzip --archive=./backup/backup.gz --db almacen --collection inventario
 
 mongosh 
 mongosh mongodb://localhost:27018 -u "root" -p "root123" --authenticationDatabase "admin" --quiet --eval "use admin" --eval "db.dropDatabase()"
 mongosh mongodb://localhost:27018 -u "root" -p "root123" --authenticationDatabase "admin" --quiet --eval "use papeleria" --eval "show collections"
 
-
-mongorestore \
-   --host=localhsot \
-   --port=27018 \
-   --username=root \
-   --authenticationDatabase=admin \
-   ./backup/dumpAlmacen
+mongorestore --host=localhsot --port=27018 --username=root --authenticationDatabase=admin ./backup/dumpAlmacen
 mongosh mongodb://localhost:27018 -u "root" -p "root123" --quiet --eval "use papeleria" --eval "show collections"
 
 mkdir export
 
-mongoexport mongodb://localhost:27018 \
-	-u "root" -p "root123"
-    --authenticationDatabase "admin" \
-    --db almacen \
-    --collection producto \
-    --out /export/productos.json
+mongoexport mongodb://localhost:27018 -u "root" -p "root123" --authenticationDatabase "admin" --db almacen --collection producto --out /export/productos.json
 
-mongoimport mongodb://localhost:27018 \
-	-u "root" -p "root123"
-    --authenticationDatabase "admin" \
-	--drop
-    --db almacen \
-    --collection producto \
-    --file=./export/lproductos.json
+mongoimport mongodb://localhost:27018 -u "root" -p "root123" --authenticationDatabase "admin" --drop --db almacen --collection producto --file=./export/lproductos.json
 
    
    
