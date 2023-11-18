@@ -1,4 +1,4 @@
-
+db = connect( 'mongodb://localhost:27020,localhost:27018,localhost:27019,localhost:27021/?replicaSet=replicas' )
 db = db.getSiblingDB("colegio");
 db.estudantes.drop();
 db.estudiantes.insertOne({nombre : 'Juan', apellido : 'Linarez', edad : 21, notas : [18,19,16], programa : { nombre : 'Ingeniería en Informática', nivel : 'pregrado'}, grupos: [ { nombre : 'Club de  Ajedrez', descripción : 'Grupo de jugadores de Ajedrez'}, { nombre : 'Club de Informática', descripcion : 'Grupo para fanáticos de Tecnología'}] });
