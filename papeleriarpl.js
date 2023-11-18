@@ -1,4 +1,5 @@
 db = connect( 'mongodb://localhost:27020,localhost:27018,localhost:27019,localhost:27021/?replicaSet=replicas' )
+db = db.getSiblingDB("almacen");
 db.inventario.drop()
 db.inventario.insertMany( [
    { item: "libro", qty:6, precio:NumberDecimal("12.8"),color:["rojo","azul","verde"],tamano:[10,12.1,14.2],
