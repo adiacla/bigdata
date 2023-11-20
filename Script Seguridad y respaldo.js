@@ -34,6 +34,12 @@ db.createUser( {
    pwd: passwordPrompt(),   
    roles:[ "readWrite" ]
 } )
+db.runCommand({connectionStatus : 1})
+mongosh --port 27018 -u "almacenUser" -p "a123" --authenticationDatabase "almacen"
+
+db.changeUserPassword("adiaz1","a1234")
+db.changeUserPassword("adiaz1",passwordPrompt())
+db.getUser("adiaz1")
 
 use almacen
 db.inventario.insertMany( [
@@ -60,7 +66,7 @@ mongosh mongodb://localhost:27018 --quiet --eval "use almacen" --eval "show coll
 
 //creamos otro usuario desde el shell de linux
 mongosh mongodb://localhost:27018 --quiet --eval "use admin" --eval "db.createUser ( { user: 'adiaz', pwd: 'Dclaros1',roles: [ 'userAdminAnyDatabase' ] } )"
-
+mongosh mongodb://localhost:27018 --quiet --eval "use almacen" --eval "db.inventario.find({},{"item":1,_id:0})"
 mongosh mongodb://localhost:27018 --quiet --eval "use admin" --eval "db.getUsers()"
 
 //ingrese al nodo y cierre el servicio
@@ -70,7 +76,7 @@ mongosh --port 27018
 use admin
 db.shutdownServer()
 exit
-
+mongosh mongodb://localhost:27018 --quiet --eval "use admin" --eval "db.shutdownServer()"
 
 //Edite un archivo YAML para habilitar la Seguridad
 nano mongod.conf
@@ -119,8 +125,15 @@ security:
 
 //Reinicie el servicio
 mongod -f mongod.conf
+mongo --port 27018
+db.auth("root","root123")
+show dbs
+exit
 
-Autentiquese como root
+//Autentiquese como root
+//cd seguridad
+//mongod --dbpath nodo1/data --logpath nodo1/logs/mongod.log --port 27018 --oplogSize 50 --fork
+//Script si el servicio está down
 
 mongosh --port 27018 -u "root" -p "root123" --authenticationDatabase "admin"
 mongosh --port 27018 --username root --password root123 --authenticationDatabase admin
@@ -142,11 +155,13 @@ db.createUser( {
    pwd: passwordPrompt(),   
    roles:[ "readWrite" ]
 } )
+
 db.createUser( {
    user:"adiaz3",
    pwd: passwordPrompt(),   
    roles:[ "readWrite" ]
 } )
+
 db.getUsers()
 
 db.dropUser("adiaz3")
@@ -188,6 +203,12 @@ db.createUser(
     roles: [ { db: "admin", role: "userAdmin" } ]
   }
 )
+
+
+//Autentiquese como root
+//cd seguridad
+//mongod --dbpath nodo1/data --logpath nodo1/logs/mongod.log --port 27018 --oplogSize 50 --fork
+//Script si el servicio está down
 /*
 ******************************************************
 Roles incorporados
@@ -205,7 +226,7 @@ acceso hasta un nivel de recolección de granularidad.
 *******************************************************
  */
  
-
+ 
 db.createUser(
   { user: "dbainv",
     pwd: "a1234",
@@ -246,13 +267,15 @@ db.grantRolesToUser( "almacenUser",  [ { db: "universidad", role: "dbOwner"  } ]
  
 use universidad
 db.getUsers()
- 
+use almacen
+db.getUser("adiaz2")
+
 //Conceder roles a usuario
 
 db.grantRolesToUser( "adiaz2",  [ { db: "universidad", role: "dbOwner"  } ] )
+db.getUser("adiaz2")
 
-//Mostrar los privilegios de los roles
-
+//Modificar los roles 
 db.updateUser("adiaz2",
 {
 roles:[{role:"userAdmin",db:"almacen"},
@@ -261,24 +284,33 @@ roles:[{role:"userAdmin",db:"almacen"},
 }
 )
 
+db.grantRolesToUser( "adiaz2",  [ { db: "universidad", role: "dbOwner"  } ] )
+
+https://www.mongodb.com/docs/manual/reference/built-in-roles/#database-user-roles
+
 db.runCommand( { rolesInfo: { role: "dbOwner", db: "almacen" }, showPrivileges: true} )
+db.runCommand( { rolesInfo: { role: "read", db: "universidad" }, showPrivileges: true} )
+
+readWriteAnyDatabase solo en admin
+db.runCommand( { rolesInfo: { role: "readWrite", db: "universidad" }, showPrivileges: true} )
 
 ******************************************************************************
 
 use almacen
+
 db.createUser(
-{user: "adminInventario",
+{user: "adminSeguridad",
  pwd: "a1234",roles: 
  [
- {role: "dbOwner", db: "almacen"},
- {role: "readAnyDatabase", db: "almacen"},
- {role: "backup", db: "almacen"},
- {role: "restore", db: "alamcen"}
+ {role:"dbAdmin",db:"almacen"}
+ {role: "readAnyDatabase", db: "admin"},
+ {role: "backup", db: "admin"},
+ {role: "restore", db: "admin"}
  ]
 }
 )
 
-
+use universidad
 ********************************************
 Crear un roles
 *********************************************
@@ -300,23 +332,18 @@ db.createUser(
   }
 )
 db.runCommand( { rolesInfo: "consultarestudiante", showBuiltinRoles: true  })
-db.runCommand(
-    {
-      rolesInfo: { role: "associate", db: "almacen" },
-      showPrivileges: true
-    }
-)
 
- db.getUser('userInv')
- 
  
 ***********************************
+use almacen
+db.createRole( { role: "usuarioAlmacen", privileges: [ { actions: ["find","update"], resource: { db: "almacen", collection: "inventario" } }], roles: [] })
+
 db.updateRole(
-"almceneditor",
+"usuarioAlmacen",
 {
 privileges: [
 {
-resource: { db: "almacen", collection: "producto"},
+resource: { db: "almacen", collection: "inventario"},
 actions: [ "find", "update", "insert" ]
 }
 ],
@@ -324,101 +351,86 @@ roles: [ ]
 }
 )
 
-db.getUser("managerjerry")
-db.dropRole("inventorymanager")
-db.getUser("managerjerry")
+db.dropRole("usuarioAlmacen")
 
-db.updateRole(
-    "inventoryControl",
-    {
-      privileges:
-          [
-            {
-              resource: { db:"products", collection:"clothing" },
-              actions: [ "update", "createCollection", "createIndex"]
-            }
-          ],
-      roles:
-          [
-            {
-              role: "read",
-              db: "products"
-            }
-          ]
-    },
-    { w:"majority" }
-)
+exit
 
 //Viste la siguiente página para ver los roles.
 https://www.mongodb.com/docs/manual/reference/built-in-roles/
 
-
-
 /*
-*******************************************************************************
-El siguiente comando crea una copia de seguridad de 
-sample_analytics base de datos ejecutándose en la URI 
-"mongodb+srv://dbaTestAdmin@cluster1.xwgj1.mongodb.net/", 
-y cierra el archivo usando para comprimir un archivo llamado 
-. --gzipbackup.gz
+*************************
+Herramientas de respaldo
+************************
+
+Implementaciones los mongodump y mongorestore
+*********************************************
+utilidades trabajar con BSON volcados de datos, y 
+son útil para crear copias de seguridad de 
+pequeñas implementaciones. Para resistente y 
+copias de seguridad no disruptivas, use un sistema 
+de archivos o una instantánea de disco a nivel de 
+bloque función, como los métodos descritos en el 
+Métodos de respaldo de MongoDB documento.
+
+ 
+ mongodump \
+   --host=mongodb1.example.net \
+   --port=3017 \
+   --username=user \
+   --password="pass" \
+   --out=/opt/backup/mongodump-1
+*/
+cd ~/seguridad
+mkdir respaldo
+cd respaldo
+
+mongosh --port 27017
+use ventas
+db.ordenes.insertMany(
+   [
+   { "_id" : 10, "Producto" : "almendras", "precio" : 12, "cantidad" : 2 },
+   { "_id" : 20, "Producto" : "nueces", "precio" : 20, "cantidad" : 1 },
+   { "_id" : 30 }
+] 
+)
+exit
+mongodump 
+mongodump --host localhost --port 27017
+tree
+   
+mongosh --port 27017
+use ventas
+db.dropDatabase()
+exit
+
+mongorestore ./dump --drop
+mongosh --port 27017
+use ventas
+show collections
+
+mongodump --host=localhost --port=27018 --out=./backup/backupAlmacen  --db=almacen --collection=inventario
+tree
+mongorestore ./backup/backupAlmacen
+mongosh --port 27017
+use almacen
+show collections
+
+mongodump -v --gzip --archive=./backup.gz 
+
+
+
+Herramientas de exportación de datos
+************************************
+mongoexport --host=localhost --port=27017 --out=./exportacion/ordenes.json  --db=almacen --collection=inventario
+cd exportacion
+cat csvinventario.csv
+
+mongoimport --file=ordendes.json --db=nuevoalmacen --collection=nuevoinventario
+
+
 
 mongodump -v --gzip --archive=backup.gz "mongodb+srv://dbaTestAdmin@cluster1.xwgj1.mongodb.net/sample_analytics"
 
-Las siguientes opciones pueden ser usadas:
- --out
- --db
- --collection
- --readPreference
- --gzip
- --archive
- --oplog
- 
- **********************************************************************************
- 
- */
- 
-
-/*
-Restore Tools
- mongorestore \
- -v \
- --gzip \
- --archive=backup.gz \
- --drop \
- "mongodb+srv://dbaTestAdmin@cluster1.xwgj1.mongodb.net"
-
-Las opciones son las siguientes
-
- --nsInclude
- --nsExclude
- --drop
- --noIndexRestore
- --writeConcern
- --gzip
- --archive
- --oplogReplay
-*/
-mkdir backup
- 
-mongodump  --host=localhost --port=27018 --username=root --password="root123" --out=./backup/mongodump 
-
-//Garantizar que tenemos un usuario de la base de datos con permiso de backup
-
-mongodump --host=localhost --port=27018 --username=root --password="root123" --gzip --archive=./backup/backup.gz --db almacen --collection inventario
-
-mongosh 
-mongosh mongodb://localhost:27018 -u "root" -p "root123" --authenticationDatabase "admin" --quiet --eval "use admin" --eval "db.dropDatabase()"
-mongosh mongodb://localhost:27018 -u "root" -p "root123" --authenticationDatabase "admin" --quiet --eval "use papeleria" --eval "show collections"
-
-mongorestore --host=localhsot --port=27018 --username=root --authenticationDatabase=admin ./backup/dumpAlmacen
-mongosh mongodb://localhost:27018 -u "root" -p "root123" --quiet --eval "use papeleria" --eval "show collections"
-
-mkdir export
-
-mongoexport mongodb://localhost:27018 -u "root" -p "root123" --authenticationDatabase "admin" --db almacen --collection producto --out /export/productos.json
-
-mongoimport mongodb://localhost:27018 -u "root" -p "root123" --authenticationDatabase "admin" --drop --db almacen --collection producto --file=./export/lproductos.json
-
-   
-   
+**********************************************************************************
  
