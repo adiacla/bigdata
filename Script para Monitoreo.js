@@ -73,6 +73,7 @@ https://www.mongodb.com/docs/manual/reference/command/serverStatus/#std-label-se
 db.stats()
 db.stats(scale)
 Devuelve estadísticas que reflejan el estado de uso de un solo base de datos.
+https://www.mongodb.com/docs/v7.0/reference/method/db.stats/
 */
 
 db.stats() 
@@ -95,6 +96,9 @@ Los datos proporcionados por este comando se derivan de los datos
 incluidos en heartbeats enviados al servidor por otros 
 miembros del conjunto de réplicas. Debido a la frecuencia de 
 los heartbeats, estos datos pueden ser varios segundos desactualizados.
+
+https://www.mongodb.com/docs/v7.0/reference/command/replSetGetStatus/
+
 */
 use admin
 db.adminCommand(
@@ -110,7 +114,7 @@ db.adminCommand( { replSetGetStatus: 1 } ).
 
 
 db.setProfilingLevel(level, options)
-Changed in version 5.0.
+//Changed in version 5.0.
 
 /*
 Profiling
