@@ -1,0 +1,11 @@
+id;ciudad;edad;Salario;Estudios;estatura;riesgo
+U001;bogota;20;1000;primaria;1,80;alto
+U002;bucaramanga;22;2000;secundaria;1,60;alto
+U003;bucaramanga;24;3000;universitario;1,20;bajo
+U004;bucaramanga;19;4000;maestria;2,00;bajo
+U005;Barranca;18;2000;secundaria;1,38;bajo
+U006;bucaramanga;21;3000;universitario;1,60;bajo
+U007;Barranca;20;4000;maestria;1,90;bajo
+U008;bucaramanga;26;500;secundaria;1,55;bajo
+U009;Barranca;28;2000;universitario;1,60;alto
+U010;bucaramanga;30;3500;maestria;1,70;alto
