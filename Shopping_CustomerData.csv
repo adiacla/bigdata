@@ -1,4 +1,4 @@
-CustomerID,CustomerGender,CustomerAge,CustomerCity,AnnualIncome,CreditScore,SpendingScore,CustomerCityID
+ID,Genero,Edad,Ciudad,Ingresos,Credito,gastos,trabajo
 1001,Male,49,Bengaluru,527547.5885,653,78,1
 1002,Male,59,Bengaluru,207143.1976,630,63,1
 1003,Female,54,Delhi,164423.8457,555,69,4
