@@ -1,5 +1,5 @@
-db = connect( 'mongodb://localhost/papeleria' )
-db.inventario.drop()
+db = db.getSiblingDB('papeleria');
+db.inventario.drop();
 db.inventario.insertMany( [
    { item: "libro", qty:6, precio:NumberDecimal("12.8"),color:["rojo","azul","verde"],tamano:[10,12.1,14.2],
 	stock: [ { bodega: "principal", ubicacion:[-77.02824,-12.04318],cantidad: 5 }, { bodega: "sucursal", ubicacion:[-71.535,-16.39889], cantidad: 15 } ],estado:"A", ventas: { "nacional": 14, "internacional": 21, licencia:true }, 
