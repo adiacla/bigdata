@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cómo funciona una CNN — Explicación Visual</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f5f4f0;
+    display: flex; justify-content: center; align-items: flex-start;
+    min-height: 100vh; padding: 2rem 1rem;
+    color: #2C2C2A;
+  }
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    border: 0.5px solid #D3D1C7;
+    padding: 2rem;
+    max-width: 700px;
+    width: 100%;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  }
+  h1 {
+    font-size: 20px; font-weight: 600; margin-bottom: 4px; color: #1a1a18;
+  }
+  .subtitle { font-size: 14px; color: #5F5E5A; margin-bottom: 1.5rem; }
+
+  .progress-bar { display: flex; gap: 6px; margin-bottom: 1.5rem; }
+  .dot {
+    flex: 1; height: 4px; border-radius: 2px;
+    background: #D3D1C7; transition: background .4s; cursor: pointer;
+  }
+  .dot.active { background: #534AB7; }
+  .dot.done { background: #9FE1CB; }
+
+  .slide { display: none; }
+  .slide.visible { display: block; }
+
+  .tag {
+    display: inline-block; font-size: 11px; font-weight: 600;
+    padding: 3px 10px; border-radius: 4px; margin-bottom: 10px;
+    background: #EEEDFE; color: #3C3489; letter-spacing: .3px;
+  }
+  .slide-title { font-size: 18px; font-weight: 600; margin-bottom: 6px; color: #1a1a18; }
+  .slide-desc {
+    font-size: 14px; color: #5F5E5A; line-height: 1.65;
+    margin-bottom: 16px; max-width: 580px;
+  }
+
+  canvas {
+    display: block; width: 100%; border-radius: 8px;
+    border: 0.5px solid #D3D1C7;
+  }
+
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 10px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #5F5E5A; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+  .controls {
+    display: flex; gap: 10px; margin-top: 20px; align-items: center;
+  }
+  .btn {
+    padding: 8px 20px; font-size: 13px; border-radius: 7px;
+    border: 0.5px solid #B4B2A9;
+    background: transparent; color: #2C2C2A;
+    cursor: pointer; transition: background .15s; font-family: inherit;
+  }
+  .btn:hover { background: #F1EFE8; }
+  .btn:disabled { opacity: .35; cursor: default; }
+  .btn.primary { background: #534AB7; color: #fff; border-color: #534AB7; }
+  .btn.primary:hover { background: #3C3489; }
+  .btn.primary:disabled { background: #AFA9EC; border-color: #AFA9EC; }
+  .slide-count { font-size: 13px; color: #888780; margin-left: auto; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>¿Cómo ve una Red Neuronal Convolucional?</h1>
+  <p class="subtitle">Guía visual interactiva — convolución, pooling, aprendizaje y flatten</p>
+
+  <div class="progress-bar" id="progress"></div>
+
+  <!-- SLIDE 0 -->
+  <div class="slide visible" id="slide-0">
+    <span class="tag">Redes Neuronales Convolucionales</span>
+    <div class="slide-title">¿Cómo ve una CNN?</div>
+    <div class="slide-desc">Una imagen es solo una cuadrícula de números. Una CNN aprende a detectar patrones pasando pequeños "filtros" sobre ella. Hagamos el recorrido completo.</div>
+    <canvas id="c0" width="640" height="200"></canvas>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#7F77DD"></div> Imagen de entrada</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#1D9E75"></div> Mapa de características</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 1 -->
+  <div class="slide" id="slide-1">
+    <span class="tag">Capa Convolucional</span>
+    <div class="slide-title">La convolución: el filtro deslizante</div>
+    <div class="slide-desc">Un filtro (kernel) de 3×3 se desliza sobre la imagen. En cada posición, multiplica y suma los valores — produciendo un número nuevo. Así detecta bordes, texturas y patrones.</div>
+    <canvas id="c1" width="640" height="280"></canvas>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#7F77DD"></div> Imagen</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#EF9F27"></div> Filtro activo (kernel)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#1D9E75"></div> Resultado</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2 -->
+  <div class="slide" id="slide-2">
+    <span class="tag">¿Qué aprende cada capa?</span>
+    <div class="slide-title">De bordes a formas complejas</div>
+    <div class="slide-desc">Las primeras capas detectan cosas simples (bordes, colores). Las capas más profundas combinan esas ideas y detectan texturas, partes de objetos, y finalmente formas completas.</div>
+    <canvas id="c2" width="640" height="260"></canvas>
+  </div>
+
+  <!-- SLIDE 3 -->
+  <div class="slide" id="slide-3">
+    <span class="tag">Capa de Pooling</span>
+    <div class="slide-title">Pooling: reducir sin perder lo importante</div>
+    <div class="slide-desc">El Max Pooling toma el valor máximo de cada región de 2×2. Esto reduce el tamaño a la mitad, descarta detalles irrelevantes y hace la red más eficiente y robusta.</div>
+    <canvas id="c3" width="640" height="280"></canvas>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#7F77DD"></div> Entrada 4×4</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#EF9F27"></div> Región 2×2</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#D85A30"></div> Valor máximo</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#1D9E75"></div> Salida 2×2</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4 -->
+  <div class="slide" id="slide-4">
+    <span class="tag">Capa Flatten</span>
+    <div class="slide-title">Flatten: de cuadrícula a lista</div>
+    <div class="slide-desc">Después de convoluciones y pooling, tenemos mapas 2D de características. Flatten los "estira" en un vector 1D, listo para entrar a las capas densas que toman la decisión final.</div>
+    <canvas id="c4" width="640" height="260"></canvas>
+  </div>
+
+  <!-- SLIDE 5 -->
+  <div class="slide" id="slide-5">
+    <span class="tag">Resumen</span>
+    <div class="slide-title">El flujo completo de una CNN</div>
+    <div class="slide-desc">Cada bloque cumple un rol específico: extraer, comprimir, entender, decidir.</div>
+    <canvas id="c5" width="640" height="200"></canvas>
+  </div>
+
+  <div class="controls">
+    <button class="btn" id="btn-prev" onclick="navigate(-1)" disabled>← Anterior</button>
+    <button class="btn primary" id="btn-next" onclick="navigate(1)">Siguiente →</button>
+    <span class="slide-count" id="count">1 / 6</span>
+  </div>
+</div>
+
+<script>
+const N = 6;
+let current = 0;
+let animFrames = {};
+
+function navigate(dir) {
+  cancelAnim();
+  const prev = current;
+  current = Math.max(0, Math.min(N-1, current + dir));
+  document.getElementById('slide-' + prev).classList.remove('visible');
+  document.getElementById('slide-' + current).classList.add('visible');
+  updateProgress();
+  updateButtons();
+  renderSlide(current);
+}
+
+function goTo(i) {
+  cancelAnim();
+  document.getElementById('slide-' + current).classList.remove('visible');
+  current = i;
+  document.getElementById('slide-' + current).classList.add('visible');
+  updateProgress();
+  updateButtons();
+  renderSlide(current);
+}
+
+function cancelAnim() {
+  Object.values(animFrames).forEach(id => cancelAnimationFrame(id));
+  animFrames = {};
+}
+
+function updateProgress() {
+  const bar = document.getElementById('progress');
+  bar.innerHTML = '';
+  for (let i = 0; i < N; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === current ? ' active' : i < current ? ' done' : '');
+    d.onclick = ((idx) => () => goTo(idx))(i);
+    bar.appendChild(d);
+  }
+  document.getElementById('count').textContent = (current+1) + ' / ' + N;
+}
+
+function updateButtons() {
+  document.getElementById('btn-prev').disabled = current === 0;
+  const nxt = document.getElementById('btn-next');
+  nxt.disabled = current === N-1;
+  nxt.textContent = current === N-1 ? '¡Completado ✓' : 'Siguiente →';
+}
+
+const P = {
+  purple: ['#EEEDFE','#CECBF6','#AFA9EC','#7F77DD','#534AB7','#3C3489'],
+  teal:   ['#E1F5EE','#9FE1CB','#5DCAA5','#1D9E75','#0F6E56','#085041'],
+  amber:  ['#FAEEDA','#FAC775','#EF9F27','#BA7517','#854F0B'],
+  coral:  ['#FAECE7','#F5C4B3','#F0997B','#D85A30','#993C1D'],
+  gray:   ['#F1EFE8','#D3D1C7','#B4B2A9','#888780','#5F5E5A'],
+};
+
+const textCol = () => '#2C2C2A';
+const mutedCol = () => '#888780';
+
+// SLIDE 0
+function renderSlide0() {
+  const cv = document.getElementById('c0');
+  const ctx = cv.getContext('2d');
+  ctx.clearRect(0, 0, 640, 200);
+  const img = [[20,40,200,220,50,30],[30,190,210,60,40,20],[180,200,50,30,200,190],[40,60,30,190,210,50],[200,50,190,220,40,30],[60,30,40,50,180,200]];
+  const sz = 38, ox = 30, oy = 20;
+  for (let r = 0; r < 6; r++) {
+    for (let c = 0; c < 6; c++) {
+      const v = img[r][c];
+      ctx.fillStyle = `rgba(83,74,183,${v/255*0.85+0.05})`;
+      ctx.beginPath(); ctx.roundRect(ox+c*sz, oy+r*sz, sz-2, sz-2, 3); ctx.fill();
+      ctx.fillStyle = v > 100 ? '#fff' : textCol();
+      ctx.font = '11px system-ui'; ctx.textAlign = 'center';
+      ctx.fillText(v, ox+c*sz+sz/2-1, oy+r*sz+sz/2+4);
+    }
+  }
+  ctx.strokeStyle = mutedCol(); ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(275,100); ctx.lineTo(305,100); ctx.stroke();
+  ctx.fillStyle = mutedCol();
+  ctx.beginPath(); ctx.moveTo(300,95); ctx.lineTo(310,100); ctx.lineTo(300,105); ctx.fill();
+  ctx.fillStyle = mutedCol(); ctx.font = '12px system-ui'; ctx.textAlign = 'center';
+  ctx.fillText('Imagen = cuadrícula de números', ox+3*sz, 185);
+  const fmap = [[0.9,0.1,0.8,0.2],[0.2,0.85,0.15,0.9],[0.75,0.1,0.9,0.05],[0.1,0.8,0.2,0.85]];
+  const ox2 = 330, sz2 = 38;
+  for (let r = 0; r < 4; r++) for (let c = 0; c < 4; c++) {
+    ctx.fillStyle = `rgba(29,158,117,${fmap[r][c]*0.9+0.05})`;
+    ctx.beginPath(); ctx.roundRect(ox2+c*sz2, oy+r*sz2+10, sz2-2, sz2-2, 3); ctx.fill();
+  }
+  ctx.fillStyle = mutedCol(); ctx.font = '12px system-ui'; ctx.textAlign = 'center';
+  ctx.fillText('Mapa de características', ox2+2*sz2, 185);
+  ctx.fillStyle = textCol(); ctx.font = '600 12px system-ui';
+  ctx.fillText('→ Filtro', 315, 107);
+}
+
+// SLIDE 1
+function renderSlide1() {
+  const cv = document.getElementById('c1');
+  const ctx = cv.getContext('2d');
+  const img = [[10,20,30,40,50,60],[15,80,90,100,25,30],[20,85,200,180,20,15],[18,75,190,170,22,12],[12,25,30,35,15,10],[8,12,15,20,10,8]];
+  const kernel = [[0,1,0],[1,4,1],[0,1,0]];
+  const sz = 38, ox = 20, oy = 20;
+  const positions = [];
+  for (let r = 0; r < 4; r++) for (let c = 0; c < 4; c++) positions.push([r,c]);
+  let frame = 0;
+  function draw() {
+    ctx.clearRect(0, 0, 640, 280);
+    const pos = positions[Math.floor(frame/18) % positions.length];
+    const pr = pos[0], pc = pos[1];
+    for (let r = 0; r < 6; r++) {
+      for (let c = 0; c < 6; c++) {
+        const isActive = r >= pr && r < pr+3 && c >= pc && c < pc+3;
+        const v = img[r][c];
+        ctx.fillStyle = isActive ? P.amber[1] : `rgba(127,119,221,${v/220*0.7+0.08})`;
+        ctx.beginPath(); ctx.roundRect(ox+c*sz, oy+r*sz, sz-2, sz-2, 3); ctx.fill();
+        ctx.fillStyle = isActive ? P.amber[4] : (v > 80 ? '#fff' : textCol());
+        ctx.font = '11px system-ui'; ctx.textAlign = 'center';
+        ctx.fillText(v, ox+c*sz+sz/2-1, oy+r*sz+sz/2+4);
+      }
+    }
+    ctx.fillStyle = mutedCol(); ctx.font = '12px system-ui'; ctx.textAlign = 'center';
+    ctx.fillText('Imagen de entrada (6×6)', ox+3*sz, 255);
+    const kox = 285, koy = 70;
+    ctx.fillStyle = textCol(); ctx.font = '600 12px system-ui'; ctx.textAlign = 'center';
+    ctx.fillText('Filtro (kernel)', kox+45, koy-6);
+    for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) {
+      ctx.fillStyle = P.amber[2];
+      ctx.beginPath(); ctx.roundRect(kox+c*34, koy+r*34, 32, 32, 3); ctx.fill();
+      ctx.fillStyle = P.amber[5]; ctx.font = '600 14px system-ui'; ctx.textAlign = 'center';
+      ctx.fillText(kernel[r][c], kox+c*34+16, koy+r*34+20);
+    }
+    const output = Array.from({length:4}, (_,rr) => Array.from({length:4}, (_,cc) => {
+      let sum = 0;
+      for (let kr = 0; kr < 3; kr++) for (let kc = 0; kc < 3; kc++) sum += img[rr+kr][cc+kc]*kernel[kr][kc];
+      return Math.min(255, sum/8);
+    }));
+    const oox = 430, ooy = 50, osz = 46;
+    ctx.fillStyle = textCol(); ctx.font = '600 12px system-ui'; ctx.textAlign = 'center';
+    ctx.fillText('Mapa resultado (4×4)', oox+2*osz, 44);
+    for (let r = 0; r < 4; r++) for (let c = 0; c < 4; c++) {
+      const isCurrent = r === pr && c === pc;
+      const isComputed = r < pr || (r === pr && c <= pc);
+      const v = output[r][c];
+      ctx.fillStyle = isCurrent ? P.coral[2] : (isComputed ? `rgba(29,158,117,${v/255*0.85+0.08})` : P.gray[0]);
+      ctx.beginPath(); ctx.roundRect(oox+c*osz, ooy+r*osz, osz-2, osz-2, 4); ctx.fill();
+      if (isComputed || isCurrent) {
+        ctx.fillStyle = isCurrent ? P.coral[4] : (v > 100 ? '#fff' : textCol());
+        ctx.font = '11px system-ui'; ctx.textAlign = 'center';
+        ctx.fillText(Math.round(v), oox+c*osz+osz/2-1, ooy+r*osz+osz/2+4);
+      }
+    }
+    ctx.strokeStyle = mutedCol(); ctx.lineWidth = 1.5;
+    ctx.fillStyle = mutedCol();
+    ctx.beginPath(); ctx.moveTo(262,140); ctx.lineTo(282,140); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(277,135); ctx.lineTo(287,140); ctx.lineTo(277,145); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(390,140); ctx.lineTo(425,140); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(420,135); ctx.lineTo(430,140); ctx.lineTo(420,145); ctx.fill();
+    ctx.fillStyle = mutedCol(); ctx.font = '12px system-ui'; ctx.textAlign = 'center';
+    ctx.fillText('Características detectadas', oox+2*osz, 255);
+    frame++;
+    animFrames[1] = requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// SLIDE 2
+function renderSlide2() {
+  const cv = document.getElementById('c2');
+  const ctx = cv.getContext('2d');
+  ctx.clearRect(0, 0, 640, 260);
+  const layers = [
+    { label: 'Capa 1', items: ['Bordes\nhorizontales','Bordes\nverticales','Colores\nbásicos'], col: P.purple, t: 'Detecta patrones simples' },
+    { label: 'Capa 2', items: ['Texturas\nsuaves','Esquinas','Gradientes'], col: P.teal, t: 'Combina bordes en texturas' },
+    { label: 'Capa 3', items: ['Partes de\nobjetos','Formas\ncomplejas','Patrones\naltos'], col: P.coral, t: 'Reconoce formas' },
+  ];
+  const lw = 180, lh = 190, gap = 30, startX = 30, oy = 30;
+  layers.forEach((layer, li) => {
+    const lx = startX + li*(lw+gap);
+    ctx.fillStyle = layer.col[0];
+    ctx.beginPath(); ctx.roundRect(lx, oy, lw, lh, 8); ctx.fill();
+    ctx.strokeStyle = layer.col[2]; ctx.lineWidth = 0.5;
+    ctx.beginPath(); ctx.roundRect(lx, oy, lw, lh, 8); ctx.stroke();
+    ctx.fillStyle = layer.col[5]; ctx.font = '600 13px system-ui'; ctx.textAlign = 'center';
+    ctx.fillText(layer.label, lx+lw/2, oy+22);
+    layer.items.forEach((item, ii) => {
+      const iy = oy+40+ii*46;
+      ctx.fillStyle = layer.col[1];
+      ctx.beginPath(); ctx.roundRect(lx+16, iy, lw-32, 38, 5); ctx.fill();
+      ctx.strokeStyle = layer.col[2]; ctx.lineWidth = 0.5;
+      ctx.beginPath(); ctx.roundRect(lx+16, iy, lw-32, 38, 5); ctx.stroke();
+      item.split('\n').forEach((ln, lni) => {
+        ctx.fillStyle = layer.col[5]; ctx.font = '12px system-ui'; ctx.textAlign = 'center';
+        ctx.fillText(ln, lx+lw/2, iy+14+lni*14);
+      });
+    });
+    ctx.fillStyle = mutedCol(); ctx.font = '11px system-ui'; ctx.textAlign = 'center';
+    ctx.fillText(layer.t, lx+lw/2, oy+lh+16);
+    if (li < layers.length-1) {
+      const ax = lx+lw+4, ay = oy+lh/2;
+      ctx.strokeStyle = mutedCol(); ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(ax+gap-8, ay); ctx.stroke();
+      ctx.fillStyle = mutedCol();
+      ctx.beginPath(); ctx.moveTo(ax+gap-12,ay-4); ctx.lineTo(ax+gap-4,ay); ctx.lineTo(ax+gap-12,ay+4); ctx.fill();
+    }
+  });
+  ctx.fillStyle = textCol(); ctx.font = '600 13px system-ui'; ctx.textAlign = 'center';
+  ctx.fillText('Las capas se "apilan" — cada una aprende sobre lo que detectó la anterior', 320, 248);
+}
+
+// SLIDE 3
+function renderSlide3() {
+  const cv = document.getElementById('c3');
+  const ctx = cv.getContext('2d');
+  const input = [[1,3,2,4],[5,6,7,8],[3,2,1,0],[9,1,8,2]];
+  const order = [[0,0],[0,2],[2,0],[2,2]];
+  let frame = 0;
+  function draw() {
+    ctx.clearRect(0, 0, 640, 280);
+    const step = Math.floor(frame/30) % 4;
+    const pr = order[step][0], pc = order[step][1];
+    const sz = 55, ox = 30, oy = 30;
+    ctx.fillStyle = textCol(); ctx.font = '600 13px system-ui'; ctx.textAlign = 'center';
+    ctx.fillText('Entrada 4×4', ox+2*sz, 22);
+    for (let r = 0; r < 4; r++) for (let c = 0; c < 4; c++) {
+      const isActive = r >= pr && r < pr+2 && c >= pc && c < pc+2;
+      const val = input[r][c];
+      ctx.fillStyle = isActive ? P.amber[1] : `rgba(127,119,221,${val/9*0.7+0.1})`;
+      ctx.beginPath(); ctx.roundRect(ox+c*sz, oy+r*sz, sz-2, sz-2, 4); ctx.fill();
+      if (isActive) { ctx.strokeStyle = P.amber[2]; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.roundRect(ox+c*sz, oy+r*sz, sz-2, sz-2, 4); ctx.stroke(); }
+      ctx.fillStyle = isActive ? P.amber[4] : textCol();
+      ctx.font = '600 18px system-ui'; ctx.textAlign = 'center';
+      ctx.fillText(val, ox+c*sz+sz/2-1, oy+r*sz+sz/2+6);
+    }
+    ctx.setLineDash([4,3]); ctx.strokeStyle = P.amber[3]; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.roundRect(ox+pc*sz, oy+pr*sz, sz*2-2, sz*2-2, 5); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.strokeStyle = mutedCol(); ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(270,130); ctx.lineTo(300,130); ctx.stroke();
+    ctx.fillStyle = mutedCol();
+    ctx.beginPath(); ctx.moveTo(296,125); ctx.lineTo(306,130); ctx.lineTo(296,135); ctx.fill();
+    ctx.fillStyle = P.coral[3]; ctx.font = '600 12px system-ui'; ctx.textAlign = 'center';
+    ctx.fillText('MAX', 285, 120);
+    const kox = 315, koy = 60;
+    ctx.fillStyle = textCol(); ctx.font = '600 12px system-ui'; ctx.textAlign = 'center';
+    ctx.fillText('Región activa', kox+45, koy-8);
+    for (let r = 0; r < 2; r++) for (let c = 0; c < 2; c++) {
+      const val = input[pr+r][pc+c];
+      ctx.fillStyle = P.amber[0];
+      ctx.beginPath(); ctx.roundRect(kox+c*46, koy+r*46, 44, 44, 5); ctx.fill();
+      ctx.strokeStyle = P.amber[2]; ctx.lineWidth = 0.5;
+      ctx.beginPath(); ctx.roundRect(kox+c*46, koy+r*46, 44, 44, 5); ctx.stroke();
+      ctx.fillStyle = P.amber[4]; ctx.font = '600 18px system-ui'; ctx.textAlign = 'center';
+      ctx.fillText(val, kox+c*46+22, koy+r*46+27);
+    }
+    const maxVal = Math.max(input[pr][pc], input[pr][pc+1], input[pr+1][pc], input[pr+1][pc+1]);
+    ctx.fillStyle = P.coral[3]; ctx.font = '600 13px system-ui'; ctx.textAlign = 'center';
+    ctx.fillText('→ máx = ' + maxVal, kox+46, 178);
+    const outVals = order.map(([rr,cc]) => Math.max(input[rr][cc],input[rr][cc+1],input[rr+1][cc],input[rr+1][cc+1]));
+    const oox = 490, ooy = 40, osz = 55;
+    ctx.fillStyle = textCol(); ctx.font = '600 13px system-ui'; ctx.textAlign = 'center';
+    ctx.fillText('Salida 2×2 (Max Pool)', oox+osz, 26);
+    for (let r = 0; r < 2; r++) for (let c = 0; c < 2; c++) {
+      const idx = r*2+c;
+      const isDone = idx <= step;
+      const isCurrent = idx === step;
+      ctx.fillStyle = isCurrent ? P.coral[1] : (isDone ? `rgba(29,158,117,${outVals[idx]/9*0.8+0.1})` : P.gray[0]);
+      ctx.beginPath(); ctx.roundRect(oox+c*osz, ooy+r*osz, osz-2, osz-2, 5); ctx.fill();
+      if (isCurrent) { ctx.strokeStyle = P.coral[2]; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.roundRect(oox+c*osz, ooy+r*osz, osz-2, osz-2, 5); ctx.stroke(); }
+      if (isDone) {
+        ctx.fillStyle = isCurrent ? P.coral[4] : (outVals[idx] > 5 ? '#fff' : textCol());
+        ctx.font = '600 18px system-ui'; ctx.textAlign = 'center';
+        ctx.fillText(outVals[idx], oox+c*osz+osz/2-1, ooy+r*osz+osz/2+6);
+      }
+    }
+    ctx.strokeStyle = mutedCol(); ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(422,130); ctx.lineTo(484,130); ctx.stroke();
+    ctx.fillStyle = mutedCol();
+    ctx.beginPath(); ctx.moveTo(479,125); ctx.lineTo(489,130); ctx.lineTo(479,135); ctx.fill();
+    ctx.fillStyle = mutedCol(); ctx.font = '12px system-ui'; ctx.textAlign = 'center';
+    ctx.fillText('El tamaño se reduce a la mitad', 320, 262);
+    frame++;
+    animFrames[3] = requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// SLIDE 4
+function renderSlide4() {
+  const cv = document.getElementById('c4');
+  const ctx = cv.getContext('2d');
+  ctx.clearRect(0, 0, 640, 260);
+  const maps = [[[0.9,0.2],[0.1,0.8]],[[0.4,0.7],[0.6,0.3]],[[0.8,0.1],[0.5,0.9]]];
+  const sz = 44, gap = 10, startX = 20, oy = 50;
+  ctx.fillStyle = textCol(); ctx.font = '600 13px system-ui'; ctx.textAlign = 'left';
+  ctx.fillText('Mapas de características (3 × 2×2)', startX, 34);
+  maps.forEach((map, mi) => {
+    const mx = startX + mi*(2*sz+gap+20);
+    map.forEach((row, r) => row.forEach((val, c) => {
+      ctx.fillStyle = `rgba(${mi===0?'83,74,183':mi===1?'29,158,117':'216,90,48'},${val*0.85+0.08})`;
+      ctx.beginPath(); ctx.roundRect(mx+c*sz, oy+r*sz, sz-2, sz-2, 4); ctx.fill();
+    }));
+    ctx.fillStyle = mutedCol(); ctx.font = '11px system-ui'; ctx.textAlign = 'center';
+    ctx.fillText('mapa '+(mi+1), mx+sz-1, oy+2*sz+16);
+  });
+  const arrowX = startX + maps.length*(2*sz+gap+20)+5;
+  ctx.strokeStyle = mutedCol(); ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(arrowX,118); ctx.lineTo(arrowX+35,118); ctx.stroke();
+  ctx.fillStyle = mutedCol();
+  ctx.beginPath(); ctx.moveTo(arrowX+30,113); ctx.lineTo(arrowX+40,118); ctx.lineTo(arrowX+30,123); ctx.fill();
+  ctx.fillStyle = '#1D9E75'; ctx.font = '600 11px system-ui'; ctx.textAlign = 'center';
+  ctx.fillText('FLATTEN', arrowX+17, 107);
+  const vectorX = arrowX+52;
+  const values = maps.flat(2);
+  const vh = 20, vgap = 3;
+  ctx.fillStyle = textCol(); ctx.font = '600 13px system-ui'; ctx.textAlign = 'left';
+  ctx.fillText('Vector 1D (12 valores)', vectorX, 34);
+  values.forEach((val, i) => {
+    const vy = oy + i*(vh+vgap);
+    const mi = Math.floor(i/4);
+    ctx.fillStyle = `rgba(${mi===0?'83,74,183':mi===1?'29,158,117':'216,90,48'},${val*0.9+0.08})`;
+    ctx.beginPath(); ctx.roundRect(vectorX, vy, 110, vh-1, 3); ctx.fill();
+    ctx.fillStyle = val > 0.5 ? '#fff' : textCol();
+    ctx.font = '11px system-ui'; ctx.textAlign = 'center';
+    ctx.fillText(val.toFixed(1), vectorX+55, vy+13);
+  });
+  const fcX = vectorX+126;
+  ctx.strokeStyle = mutedCol(); ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(fcX,118); ctx.lineTo(fcX+30,118); ctx.stroke();
+  ctx.fillStyle = mutedCol();
+  ctx.beginPath(); ctx.moveTo(fcX+25,113); ctx.lineTo(fcX+35,118); ctx.lineTo(fcX+25,123); ctx.fill();
+  ctx.fillStyle = '#E1F5EE';
+  ctx.beginPath(); ctx.roundRect(fcX+38, oy, 80, 2*sz, 8); ctx.fill();
+  ctx.strokeStyle = '#5DCAA5'; ctx.lineWidth = 0.5;
+  ctx.beginPath(); ctx.roundRect(fcX+38, oy, 80, 2*sz, 8); ctx.stroke();
+  ctx.fillStyle = '#085041'; ctx.font = '600 12px system-ui'; ctx.textAlign = 'center';
+  ctx.fillText('Capas', fcX+78, 106);
+  ctx.fillText('densas', fcX+78, 122);
+  ctx.fillStyle = mutedCol(); ctx.font = '11px system-ui';
+  ctx.fillText('Decisión final', fcX+78, 170);
+  ctx.fillStyle = mutedCol(); ctx.font = '12px system-ui'; ctx.textAlign = 'center';
+  ctx.fillText('Flatten convierte la cuadrícula 2D en un vector 1D listo para clasificar', 320, 248);
+}
+
+// SLIDE 5
+function renderSlide5() {
+  const cv = document.getElementById('c5');
+  const ctx = cv.getContext('2d');
+  ctx.clearRect(0, 0, 640, 200);
+  const stages = [
+    { name: ['Imagen','entrada'], sub: '6×6 px', col: P.gray },
+    { name: ['Conv','+ ReLU'], sub: 'Detecta bordes', col: P.purple },
+    { name: ['Pooling'], sub: 'Reduce tamaño', col: P.amber },
+    { name: ['Flatten'], sub: 'Vector 1D', col: P.teal },
+    { name: ['Capas','densas'], sub: 'Clasifica', col: P.coral },
+  ];
+  const bw = 96, bh = 100, gap = 20, oy = 40;
+  const totalW = stages.length*bw + (stages.length-1)*gap;
+  const startX = (640-totalW)/2;
+  stages.forEach((stage, i) => {
+    const sx = startX + i*(bw+gap);
+    ctx.fillStyle = stage.col[0];
+    ctx.beginPath(); ctx.roundRect(sx, oy, bw, bh, 8); ctx.fill();
+    ctx.strokeStyle = stage.col[2]; ctx.lineWidth = 0.5;
+    ctx.beginPath(); ctx.roundRect(sx, oy, bw, bh, 8); ctx.stroke();
+    ctx.fillStyle = stage.col[5]; ctx.font = '600 13px system-ui'; ctx.textAlign = 'center';
+    stage.name.forEach((ln, li) => ctx.fillText(ln, sx+bw/2, oy+30+li*16));
+    ctx.fillStyle = stage.col[4]; ctx.font = '11px system-ui';
+    ctx.fillText(stage.sub, sx+bw/2, oy+72);
+    if (i < stages.length-1) {
+      const ax = sx+bw+2, ay = oy+bh/2;
+      ctx.strokeStyle = mutedCol(); ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(ax+gap-4, ay); ctx.stroke();
+      ctx.fillStyle = mutedCol();
+      ctx.beginPath(); ctx.moveTo(ax+gap-8,ay-4); ctx.lineTo(ax+gap,ay); ctx.lineTo(ax+gap-8,ay+4); ctx.fill();
+    }
+  });
+  ctx.fillStyle = textCol(); ctx.font = '600 13px system-ui'; ctx.textAlign = 'center';
+  ctx.fillText('Arquitectura completa: cada capa transforma la información para la siguiente', 320, 175);
+}
+
+function renderSlide(i) {
+  if (i === 0) renderSlide0();
+  if (i === 1) renderSlide1();
+  if (i === 2) renderSlide2();
+  if (i === 3) renderSlide3();
+  if (i === 4) renderSlide4();
+  if (i === 5) renderSlide5();
+}
+
+updateProgress();
+updateButtons();
+renderSlide(0);
+</script>
+</body>
+</html>
